@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Security;
 using ToroApplication.DTOs.Request;
 using ToroApplication.DTOs.Response;
+using ToroApplication.Mappers;
 
 namespace ToroApplication.Controllers
 {
@@ -44,18 +45,13 @@ namespace ToroApplication.Controllers
         {
             try
             {
-                var serviceResult = await _userservice.CreateUser(postUserDto.Name, postUserDto.CPF, postUserDto.Password);
+                var serviceResult = await _userservice.CreateUser(postUserDto.CPF, postUserDto.Name, postUserDto.Password);
                 if (!serviceResult.Success)
                     return BadRequest(serviceResult.ValidationMessages);
 
-                var result = new UserDto()
-                {
-                    UserId = serviceResult.Result.UserId,
-                    CPF = serviceResult.Result.CPF,
-                    UserName = serviceResult.Result.UserName
-                };
+                var createdUser = new UserAdapter().Adapt(serviceResult.Result);
 
-                return Created($"User: {result.UserId}", result);
+                return Created($"User: {createdUser.UserId}", createdUser);
             }
             catch (Exception ex)
             {
@@ -81,7 +77,9 @@ namespace ToroApplication.Controllers
 
                 var token = TokenService.GenerateToken(serviceResult.Result);
 
-                return Ok(new LoggedUserDto(serviceResult.Result.UserName, serviceResult.Result.CPF, token));
+                var loggedUser = new UserAdapter().Adapt(serviceResult.Result, token);
+
+                return Ok(loggedUser);
             }
             catch (Exception ex)
             {

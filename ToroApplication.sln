@@ -3,19 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToroApplication", "ToroApplication\ToroApplication.csproj", "{2EFB27FD-8D8E-4CAF-AEED-91AF2994940F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToroApplication", "ToroApplication\ToroApplication.csproj", "{2EFB27FD-8D8E-4CAF-AEED-91AF2994940F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{1ED778F3-A345-4D2A-9D8B-06856371F395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Security", "Security\Security.csproj", "{77C82B15-1142-408C-9042-474A4E8E1EC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Security", "Security\Security.csproj", "{77C82B15-1142-408C-9042-474A4E8E1EC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{6B2D7714-DBF7-4D8A-B22A-EFE6B49D7DA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{6B2D7714-DBF7-4D8A-B22A-EFE6B49D7DA9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{2CA09A4D-6DCA-481E-B55C-D51FCCB86561}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Model", "Domain.Model\Domain.Model.csproj", "{A5FDA403-0854-416C-9EA5-CF330EB64A6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Model", "Domain.Model\Domain.Model.csproj", "{A5FDA403-0854-416C-9EA5-CF330EB64A6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Service", "Domain.Service\Domain.Service.csproj", "{A1AA4EEF-621B-494E-AF5F-9B9359470DD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Service", "Domain.Service\Domain.Service.csproj", "{A1AA4EEF-621B-494E-AF5F-9B9359470DD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{917A07FE-BAC0-4368-BA49-EE1743D9855D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToroApplicationTests", "ToroApplicationTests\ToroApplicationTests.csproj", "{DFC37AE0-B786-473D-A14F-576351995787}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +47,10 @@ Global
 		{A1AA4EEF-621B-494E-AF5F-9B9359470DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1AA4EEF-621B-494E-AF5F-9B9359470DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1AA4EEF-621B-494E-AF5F-9B9359470DD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC37AE0-B786-473D-A14F-576351995787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC37AE0-B786-473D-A14F-576351995787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC37AE0-B786-473D-A14F-576351995787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC37AE0-B786-473D-A14F-576351995787}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +60,7 @@ Global
 		{6B2D7714-DBF7-4D8A-B22A-EFE6B49D7DA9} = {1ED778F3-A345-4D2A-9D8B-06856371F395}
 		{A5FDA403-0854-416C-9EA5-CF330EB64A6A} = {2CA09A4D-6DCA-481E-B55C-D51FCCB86561}
 		{A1AA4EEF-621B-494E-AF5F-9B9359470DD7} = {2CA09A4D-6DCA-481E-B55C-D51FCCB86561}
+		{DFC37AE0-B786-473D-A14F-576351995787} = {917A07FE-BAC0-4368-BA49-EE1743D9855D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EDB7AA9C-FFB3-4CAA-9190-5DA1846C4608}

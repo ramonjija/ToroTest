@@ -18,7 +18,7 @@ namespace Domain.Service.Services
             _passwordService = passwordService;
         }
 
-        public async Task<IServiceResult<User>> CreateUser(string name, string cpf, string password)
+        public async Task<IServiceResult<User>> CreateUser(string cpf, string name, string password)
         {
             try
             {
@@ -28,18 +28,14 @@ namespace Domain.Service.Services
                 if (existingUser != null)
                 {
                     serviceResult.AddMessage($"There's already a user with this CPF. 'CPF: {cpf}'");
+                    return serviceResult;
                 }
 
-                if (!serviceResult.Success)
-                    return serviceResult;
-
-                if(!IsCpfValid(cpf))
+                if (!IsCpfValid(cpf))
                 {
-                    serviceResult.AddMessage($"The CPF format is invalid. 'CPF: {cpf}'");
-                }
-
-                if (!serviceResult.Success)
+                    serviceResult.AddMessage($"The CPF's format is invalid. 'CPF: {cpf}'");
                     return serviceResult;
+                }
 
                 var user = new User(cpf, name, _passwordService.HashPassword(password));
 
@@ -47,6 +43,32 @@ namespace Domain.Service.Services
                 await _unitOfWork.Commit();
                 serviceResult.SetResult(newUser);
 
+                return serviceResult;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<IServiceResult<User>> GetUser(string cpf, string password)
+        {
+            try
+            {
+                var serviceResult = new ServiceResult<User>();
+                var user = await _unitOfWork.Users.GetUserByCpf(cpf);
+                if (user == null)
+                {
+                    serviceResult.AddMessage("User Not Found");
+                    return serviceResult;
+                }
+                if (!_passwordService.IsPasswordValid(password, user.PasswordHash))
+                {
+                    serviceResult.AddMessage("Incorrect Password");
+                    return serviceResult;
+                }
+
+                serviceResult.SetResult(user);
                 return serviceResult;
             }
             catch (Exception ex)
@@ -87,32 +109,6 @@ namespace Domain.Service.Services
                     serviceResult.AddMessage("User Not Found");
                     return serviceResult;
                 }
-                serviceResult.SetResult(user);
-                return serviceResult;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public async Task<IServiceResult<User>> GetUser(string cpf, string password)
-        {
-            try
-            {
-                var serviceResult = new ServiceResult<User>();
-                var user = await _unitOfWork.Users.GetUserByCpf(cpf);
-                if (user == null)
-                {
-                    serviceResult.AddMessage("User Not Found");
-                    return serviceResult;
-                }
-                if (!_passwordService.IsPasswordValid(password, user.PasswordHash))
-                {
-                    serviceResult.AddMessage("Incorrect Password");
-                    return serviceResult;
-                }
-
                 serviceResult.SetResult(user);
                 return serviceResult;
             }

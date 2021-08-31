@@ -1,8 +1,3 @@
-//using AutoMapper;
-//using DataAccess.Repository;
-//using Domain.Interfaces;
-//using Domain.Service;
-//using Domain.Service.Services;
 using DataAccess;
 using DataAccess.Repository;
 using Domain.Model.Interfaces;
@@ -22,7 +17,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 
 namespace ToroApplication
 {
@@ -47,8 +41,6 @@ namespace ToroApplication
                 c.ClearProviders();
                 c.AddConsole();
             });
-
-            //services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(c =>
             {
