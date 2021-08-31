@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ToroApplication</name>
+    </assembly>
+    <members>
+        <member name="M:ToroApplication.Controllers.UserController.Post(ToroApplication.DTOs.Request.PostUserDto)">
+            <summary>
+            This Route is Used to Create Users
+            </summary>
+            <param name="postUserDto">
+            Name = Name of the User
+            CPF = CPF of the User
+            Password = Password of the User
+            </param>
+        </member>
+        <member name="M:ToroApplication.Controllers.UserController.Login(ToroApplication.DTOs.Request.LogUserDto)">
+            <summary>
+            This Route is Responsible for the Login of the User
+            </summary>
+        </member>
+    </members>
+</doc>
