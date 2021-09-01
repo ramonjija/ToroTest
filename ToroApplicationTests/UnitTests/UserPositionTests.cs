@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Security;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,6 @@ namespace ToroApplicationTests.UnitTests
         private IUserPositionService userPositionService;
         private string userName = "User Test";
         private string cpf = "906.510.230-25";
-        private string password = "1234";
         private string passwordHash = new PasswordService().HashPassword("1234");
         private User user;
         private IEnumerable<Position> positions;
@@ -43,7 +43,7 @@ namespace ToroApplicationTests.UnitTests
                 }
             };
             unitOfWorkMock = new Mock<IUnitOfWork>();
-            unitOfWorkMock.Setup(c => c.UserPositions.GetPositionByCpf(It.IsAny<string>())).ReturnsAsync(new UserPosition(1, positions, 9, 10, user));
+            unitOfWorkMock.Setup(c => c.UserPositions.GetPositionByCpf(It.IsAny<string>())).ReturnsAsync(new UserPosition(positions, 9, 10, user));
             userPositionService = new UserPositionService(unitOfWorkMock.Object);
         }
 
@@ -57,7 +57,7 @@ namespace ToroApplicationTests.UnitTests
             //Assert
             Assert.IsTrue(serviceResult.Success);
             Assert.IsEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(1, serviceResult.Result.UserPositionId);
+            Assert.AreEqual(0, serviceResult.Result.UserPositionId);
             Assert.AreEqual(10, serviceResult.Result.Consolidated);
             Assert.AreEqual(9, serviceResult.Result.CheckingAccountAmount);
             Assert.AreEqual(user, serviceResult.Result.User);
@@ -83,7 +83,7 @@ namespace ToroApplicationTests.UnitTests
         public async Task Should_Get_Position_With_No_Shares_By_Cpf()
         {
             //Arrange
-            unitOfWorkMock.Setup(c => c.UserPositions.GetPositionByCpf(It.IsAny<string>())).ReturnsAsync(new UserPosition(1, null, 10, 10, user));
+            unitOfWorkMock.Setup(c => c.UserPositions.GetPositionByCpf(It.IsAny<string>())).ReturnsAsync(new UserPosition(null, 10, user));
 
             //Act
             var serviceResult = await userPositionService.GetUserPosition(cpf).ConfigureAwait(false);
@@ -91,11 +91,112 @@ namespace ToroApplicationTests.UnitTests
             //Assert
             Assert.IsTrue(serviceResult.Success);
             Assert.IsEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(1, serviceResult.Result.UserPositionId);
+            Assert.AreEqual(0, serviceResult.Result.UserPositionId);
             Assert.AreEqual(10, serviceResult.Result.Consolidated);
             Assert.AreEqual(10, serviceResult.Result.CheckingAccountAmount);
             Assert.AreEqual(user, serviceResult.Result.User);
-            Assert.IsNull(serviceResult.Result.Positions);
+            Assert.IsEmpty(serviceResult.Result.Positions);
+        }
+
+        [Test]
+        public void Should_Add_Position_To_User()
+        {
+            //Arrange
+            var positions = new List<Position>()
+            {
+                new Position()
+                {
+                    PositionId = 1,
+                    Amout = 1,
+                    Share = new Share()
+                    {
+                        ShareId = 1,
+                        CurrentPrice = 10,
+                        Symbol = "TEST1"
+                    }
+                },
+                 new Position()
+                {
+                    PositionId = 2,
+                    Amout = 3,
+                    Share = new Share()
+                    {
+                        ShareId = 1,
+                        CurrentPrice = 30,
+                        Symbol = "TEST2"
+                    }
+                }
+            };
+            var userPosition = new UserPosition(null, 10, user);
+
+            //Act
+            userPosition.AddPositionsToUser(positions);
+
+            //Assert
+            Assert.AreEqual(0, userPosition.UserPositionId);
+            Assert.AreEqual(110, userPosition.Consolidated);
+            Assert.AreEqual(10, userPosition.CheckingAccountAmount);
+            Assert.AreEqual(user, userPosition.User);
+            Assert.IsNotEmpty(userPosition.Positions);
+        }
+
+        [Test]
+        public void Should_Remove_Position_Of_User()
+        {
+            //Arrange
+            var positions = new List<Position>()
+            {
+                new Position()
+                {
+                    PositionId = 1,
+                    Amout = 1,
+                    Share = new Share()
+                    {
+                        ShareId = 1,
+                        CurrentPrice = 10,
+                        Symbol = "TEST1"
+                    }
+                },
+                 new Position()
+                {
+                    PositionId = 2,
+                    Amout = 3,
+                    Share = new Share()
+                    {
+                        ShareId = 1,
+                        CurrentPrice = 30,
+                        Symbol = "TEST2"
+                    }
+                }
+            };
+
+            var positionsToRemove = new List<Position>()
+            {
+                new Position()
+                {
+                    PositionId = 1,
+                    Amout = 1,
+                    Share = new Share()
+                    {
+                        ShareId = 1,
+                        CurrentPrice = 10,
+                        Symbol = "TEST1"
+                    }
+                }
+            };
+
+            var userPosition = new UserPosition(positions, 10, user);
+
+            //Act
+            userPosition.RemovePositionsOfUser(positionsToRemove);
+
+            //Assert
+            //Assert
+            Assert.AreEqual(0, userPosition.UserPositionId);
+            Assert.AreEqual(100, userPosition.Consolidated);
+            Assert.AreEqual(10, userPosition.CheckingAccountAmount);
+            Assert.AreEqual(user, userPosition.User);
+            Assert.IsNotEmpty(userPosition.Positions);
         }
     }
 }
