@@ -1,4 +1,4 @@
-using Domain.Model.Entities;
+﻿using Domain.Model.Entities;
 using Domain.Model.Interfaces;
 using Domain.Service.Services;
 using Moq;
@@ -7,30 +7,27 @@ using Security;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ToroApplicationTests
+namespace ToroApplicationTests.UnitTests
 {
-    public class Tests
+    [TestFixture]
+    public class User_Tests
     {
         private Mock<IUnitOfWork> unitOfWorkMock;
         private IUserService userService;
         private string userName = "User Test";
         private string cpf = "906.510.230-25";
         private string password = "1234";
-        private string passwordHash = string.Empty;
+        private string passwordHash = new PasswordService().HashPassword("1234");
 
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
-            var passwordService = new PasswordService();
-            passwordHash = passwordService.HashPassword(password);
-
             unitOfWorkMock = new Mock<IUnitOfWork>();
             unitOfWorkMock.Setup(c => c.Users.GetUserByCpf(It.IsAny<string>())).ReturnsAsync(() => null);
-
             unitOfWorkMock.Setup(c => c.Users.Create(It.IsAny<User>())).ReturnsAsync(new User(cpf, userName, passwordHash));
-
-            userService = new UserService(unitOfWorkMock.Object, passwordService);
+            userService = new UserService(unitOfWorkMock.Object, new PasswordService());
         }
+
 
         [Test]
         public async Task Should_Create_User()
@@ -77,6 +74,56 @@ namespace ToroApplicationTests
             Assert.IsNotEmpty(serviceResult.ValidationMessages);
             Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), $"The CPF's format is invalid. 'CPF: {incorrectCpf}'");
         }
+
+        [Test]
+        public async Task Should_Get_User_By_CPF_Password()
+        {
+            //Arrange
+            unitOfWorkMock.Setup(c => c.Users.GetUserByCpf(It.IsAny<string>())).ReturnsAsync(new User(cpf, userName, passwordHash));
+
+            //Act
+            var serviceResult = await userService.GetUser(cpf, password);
+
+            //Assert
+            Assert.IsTrue(serviceResult.Success);
+            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.AreEqual(userName, serviceResult.Result.UserName);
+            Assert.IsTrue(new PasswordService().IsPasswordValid(password, serviceResult.Result.PasswordHash));
+        }
+
+
+        [Test]
+        public async Task Should_Validate_Unexisting_User_By_CPF_Password()
+        {
+            //Arrange
+            unitOfWorkMock.Setup(c => c.Users.GetUserByCpf(It.IsAny<string>())).ReturnsAsync(() => null);
+
+            //Act
+            var serviceResult = await userService.GetUser(userName, password);
+
+            //Assert
+            Assert.IsFalse(serviceResult.Success);
+            Assert.IsNull(serviceResult.Result);
+            Assert.IsNotEmpty(serviceResult.ValidationMessages);
+            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), "User Not Found");
+        }
+
+        [Test]
+        public async Task Should_Validate_User_With_Incorrect_Password()
+        {
+            //Arrange
+            unitOfWorkMock.Setup(c => c.Users.GetUserByCpf(It.IsAny<string>())).ReturnsAsync(new User(cpf, userName, passwordHash));
+
+            //Act
+            var serviceResult = await userService.GetUser(userName, passwordHash);
+
+            //Assert
+            Assert.IsFalse(serviceResult.Success);
+            Assert.IsNull(serviceResult.Result);
+            Assert.IsNotEmpty(serviceResult.ValidationMessages);
+            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), "Incorrect Password");
+        }
+
 
     }
 }
