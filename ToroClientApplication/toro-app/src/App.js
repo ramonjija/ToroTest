@@ -1,8 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Login from "./components/Login";
-import UserPosition from "./components/UserPosition/UserPosition";
-import Preferences from "./components/Preferences/Preferences";
+import Login from "./components/Pages/SignIn/Login";
+import UserPosition from "./components/Pages/UserPosition/UserPosition";
 import { useState } from "react";
 
 function App() {
@@ -17,9 +16,6 @@ function App() {
 				<Switch>
 					<Route path="/UserPosition">
 						<UserPosition />
-					</Route>
-					<Route path="/preferences">
-						<Preferences />
 					</Route>
 				</Switch>
 			</BrowserRouter>

@@ -71,6 +71,8 @@ namespace ToroApplication.Controllers
         {
             try
             {
+                //TODO: Implement FluentValidator for DTOs
+
                 var serviceResult = await _userservice.GetUser(logUserDto.CPF, logUserDto.Password);
                 if (!serviceResult.Success)
                     return BadRequest(serviceResult.ValidationMessages);
