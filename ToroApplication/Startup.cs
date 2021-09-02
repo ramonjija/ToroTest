@@ -17,6 +17,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace ToroApplication
 {
@@ -117,10 +118,9 @@ namespace ToroApplication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger, InvestmentsDbContext investmentsDbContext)
         {
-            //Add EnsureDbMigration
-            //EnsureDbMigration(borrowedGamesContext, logger);
+            EnsureDbMigration(investmentsDbContext, logger);
 
             if (env.IsDevelopment())
             {
@@ -150,13 +150,14 @@ namespace ToroApplication
             });
         }
 
-        /*private void EnsureDbMigration(BorrowedGamesContext dbContext, ILogger<Startup> logger, int tentatives = 1)
+        private void EnsureDbMigration(InvestmentsDbContext dbContext, ILogger<Startup> logger, int tentatives = 1)
         {
             logger.LogInformation($"Attempting to Migrate Database. Tentative: {tentatives}");
             int count = tentatives;
             try
             {
                 dbContext.Database.Migrate();
+                logger.LogInformation($"Migrate Database - Success.");
             }
             catch (Exception ex)
             {
@@ -166,6 +167,6 @@ namespace ToroApplication
                     throw ex;
                 EnsureDbMigration(dbContext, logger, count);
             }
-        }*/
+        }
     }
 }

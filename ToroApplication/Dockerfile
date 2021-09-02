@@ -7,14 +7,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
+COPY ["ToroApplicationTests/ToroApplicationTests.csproj", "ToroApplicationTests/"]
 COPY ["ToroApplication/ToroApplication.csproj", "ToroApplication/"]
-COPY ["Infrastructure/DataAccess.csproj", "Infrastructure/"]
-COPY ["Domain/Domain.Model.csproj", "Domain/"]
+COPY ["DataAccess/DataAccess.csproj", "DataAccess/"]
+COPY ["Domain.Model/Domain.Model.csproj", "Domain.Model/"]
 COPY ["Domain.Service/Domain.Service.csproj", "Domain.Service/"]
-COPY ["Authentication/Security.csproj", "Security/"]
-
-
-
+COPY ["Security/Security.csproj", "Security/"]
 RUN dotnet restore "ToroApplication/ToroApplication.csproj"
 COPY . .
 WORKDIR "/src/ToroApplication"
