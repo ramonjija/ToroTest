@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserCreation() {
 	const classes = useStyles();
+	const history = useHistory();
 
 	const [cpf, setCpf] = useState();
 	const [password, setPassword] = useState();
@@ -61,6 +63,7 @@ export default function UserCreation() {
 			setValidationMessage("User Created successfully! Please Sign In");
 			setSeverity("success");
 			setOpen(true);
+			history.push("/SignIn");
 		} else {
 			setValidationMessage(userCreateAttempt[0]);
 			setSeverity("error");

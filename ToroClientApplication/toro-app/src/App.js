@@ -5,8 +5,20 @@ import UserPosition from "./components/Pages/UserPosition/UserPosition";
 import { useState } from "react";
 import UserCreation from "./components/Pages/SignUp/UserCreation";
 
+function setToken(userToken) {
+	sessionStorage.setItem("token", JSON.stringify(userToken));
+}
+
+function getToken() {
+	const tokenString = sessionStorage.getItem("token");
+	const userToken = JSON.parse(tokenString);
+	return userToken;
+}
+
 function App() {
-	const [token, setToken] = useState();
+	debugger;
+	const token = getToken();
+	//const [token, setToken] = useState();
 
 	//if (!token) return <Login setToken={setToken} />;
 
