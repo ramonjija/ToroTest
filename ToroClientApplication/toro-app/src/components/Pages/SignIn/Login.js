@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -9,12 +10,12 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import PropTypes from "prop-types";
-import { loginUser } from "../../../Services/LoginServices";
+import { loginUser, cpfMask } from "../../../Services/LoginServices";
+import UserCreation from "../SignUp/UserCreation";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -44,6 +45,7 @@ export default function Login({ setToken }) {
 	const [validationMessage, setValidationMessage] = useState();
 
 	const [open, setOpen] = React.useState(false);
+	const [severity, setSeverity] = React.useState();
 
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") {
@@ -54,13 +56,17 @@ export default function Login({ setToken }) {
 	};
 
 	const handleLogin = async () => {
-		debugger;
 		var loginAttempt = await loginUser({ cpf, password });
 		const { token } = loginAttempt;
-		if (token) setToken(token);
-		else {
-			console.log(loginAttempt);
+
+		if (token) {
+			setValidationMessage("Login successfully!");
+			setSeverity("success");
+			setOpen(true);
+			setToken(token);
+		} else {
 			setValidationMessage(loginAttempt[0]);
+			setSeverity("error");
 			setOpen(true);
 		}
 	};
@@ -84,19 +90,21 @@ export default function Login({ setToken }) {
 					<TextField
 						variant="outlined"
 						margin="normal"
-						required="true"
+						required={true}
 						fullWidth
 						id="cpf"
 						label="CPF"
+						type="text"
 						name="cpf"
 						autoComplete="number"
 						autoFocus
+						inputProps={{ maxLength: 14, minLength: 11 }}
 						onChange={(e) => setCpf(e.target.value)}
 					/>
 					<TextField
 						variant="outlined"
 						margin="normal"
-						required="true"
+						required={true}
 						fullWidth
 						name="password"
 						label="Password"
@@ -120,15 +128,18 @@ export default function Login({ setToken }) {
 					</Button>
 					<Grid container>
 						<Grid item>
-							<Link href="./Pages/SignUp/" variant="body2">
-								{"Não possui uma conta? Cadastre-se aqui"}
-							</Link>
+							<Router>
+								<Link to="/SignUp">
+									{"Não possui uma conta? Cadastre-se aqui"}
+								</Link>
+								<Route path="/SignUp" component={UserCreation} />
+							</Router>
 						</Grid>
 					</Grid>
 				</form>
 				{validationMessage && (
 					<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-						<MuiAlert severity="error" elevation={6} variant="filled">
+						<MuiAlert severity={severity} elevation={6} variant="filled">
 							{validationMessage}
 						</MuiAlert>
 					</Snackbar>

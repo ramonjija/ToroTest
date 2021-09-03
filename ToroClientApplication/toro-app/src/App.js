@@ -1,24 +1,46 @@
 import "./App.css";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Login from "./components/Pages/SignIn/Login";
 import UserPosition from "./components/Pages/UserPosition/UserPosition";
 import { useState } from "react";
+import UserCreation from "./components/Pages/SignUp/UserCreation";
 
 function App() {
 	const [token, setToken] = useState();
 
-	if (!token) return <Login setToken={setToken} />;
+	//if (!token) return <Login setToken={setToken} />;
 
 	return (
 		<div className="wrapper">
 			<h1>Toro Ivestimentos</h1>
-			<BrowserRouter>
+			<Router basename="/">
+				<nav>
+					<ul>
+						<li>
+							<Link to="/SignIn">Sign In</Link>
+						</li>
+						<li>
+							<Link to="/SignUp">Sign Up</Link>
+						</li>
+						<li>
+							<Link to="/UserPosition">User Position</Link>
+						</li>
+					</ul>
+				</nav>
 				<Switch>
-					<Route path="/UserPosition">
-						<UserPosition />
+					<Route path="/SignIn">
+						<Login setToken={setToken} />
 					</Route>
+					<Route path="/SignUp">
+						<UserCreation />
+					</Route>
+					{token && (
+						<Route path="/UserPosition">
+							<UserPosition />
+						</Route>
+					)}
 				</Switch>
-			</BrowserRouter>
+			</Router>
 		</div>
 	);
 }
