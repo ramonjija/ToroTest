@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Link,
+	useHistory,
+} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -40,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login({ setToken }) {
 	const classes = useStyles();
-
+	const history = useHistory();
 	const [cpf, setCpf] = useState();
 	const [password, setPassword] = useState();
 	const [validationMessage, setValidationMessage] = useState();
@@ -65,6 +70,7 @@ export default function Login({ setToken }) {
 			setOpen(true);
 			setTimeout(() => {
 				setToken(token);
+				history.push("/UserPosition");
 			}, 1000);
 		} else {
 			setValidationMessage(loginAttempt[0]);
