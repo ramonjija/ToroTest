@@ -1,0 +1,20 @@
+﻿using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using ToroApplication.DTOs.Request;
+
+namespace ToroApplication.DTOs.Validation
+{
+    public class PostUserValidation : AbstractValidator<PostUserDto>
+    {
+        public PostUserValidation()
+        {
+            RuleFor(c => c.Name).NotEmpty();
+            RuleFor(c => c.CPF).NotEmpty();
+            RuleFor(c => c.CPF).Length(11,14);
+            RuleFor(c => c.Password).NotEmpty();
+        }
+    }
+}

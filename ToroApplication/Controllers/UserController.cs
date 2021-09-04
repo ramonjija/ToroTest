@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Security;
 using ToroApplication.DTOs.Request;
 using ToroApplication.DTOs.Response;
+using ToroApplication.DTOs.Validation;
 using ToroApplication.Mappers;
 
 namespace ToroApplication.Controllers
@@ -45,7 +46,10 @@ namespace ToroApplication.Controllers
         {
             try
             {
-                //TODO: Implement FluentValidator for DTOs
+                //TODO: Implement FluentValidator for DTO
+                var validationResult = new PostUserValidation().Validate(postUserDto);
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors.Select(c => c.ErrorMessage));
 
                 var serviceResult = await _userservice.CreateUser(postUserDto.CPF, postUserDto.Name, postUserDto.Password);
                 if (!serviceResult.Success)
@@ -74,6 +78,9 @@ namespace ToroApplication.Controllers
             try
             {
                 //TODO: Implement FluentValidator for DTOs
+                var validationResult = new LogUserValidation().Validate(logUserDto);
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors.Select(c => c.ErrorMessage));
 
                 var serviceResult = await _userservice.GetUser(logUserDto.CPF, logUserDto.Password);
                 if (!serviceResult.Success)
