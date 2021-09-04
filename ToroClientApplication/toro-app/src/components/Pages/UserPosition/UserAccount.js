@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { Box, Avatar } from "@material-ui/core";
+import { Box, Avatar, Button } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ModalShares from "./ModalShares";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -40,6 +41,14 @@ export default function UserAccount({
 	consolidated,
 }) {
 	const classes = useStyles();
+	const [openModal, setOpenModal] = useState(false);
+
+	const handleOpenModal = () => {
+		setOpenModal(true);
+	};
+	const handleCloseModal = () => {
+		setOpenModal(false);
+	};
 
 	return (
 		<div className={classes.root}>
@@ -61,6 +70,12 @@ export default function UserAccount({
 							<Typography variant="subtitle1" className={classes.subgroup}>
 								R$ {consolidated}
 							</Typography>
+						</Box>
+						<Box p={1}>
+							<Button variant="contained" onClick={handleOpenModal}>
+								Comprar Ações
+							</Button>
+							<ModalShares open={openModal} onClose={handleCloseModal} />
 						</Box>
 					</Box>
 
