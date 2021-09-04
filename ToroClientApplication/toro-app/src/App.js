@@ -1,5 +1,11 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Link,
+	Redirect,
+} from "react-router-dom";
 import Login from "./components/Pages/SignIn/Login";
 import UserPosition from "./components/Pages/UserPosition/UserPosition";
 import UserCreation from "./components/Pages/SignUp/UserCreation";
@@ -7,8 +13,6 @@ import useToken from "./Utils/useToken";
 
 function App() {
 	const { token, setToken } = useToken();
-
-	if (!token) return <Login setToken={setToken} />;
 
 	return (
 		<div className="wrapper">
@@ -28,6 +32,14 @@ function App() {
 					</ul>
 				</nav>
 				<Switch>
+					<Route exact path="/">
+						{token ? (
+							<Redirect to="/UserPosition" />
+						) : (
+							<Login setToken={setToken} />
+						)}
+					</Route>
+
 					<Route path="/SignIn">
 						<Login setToken={setToken} />
 					</Route>
