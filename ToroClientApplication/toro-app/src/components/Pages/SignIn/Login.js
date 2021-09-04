@@ -52,7 +52,6 @@ export default function Login({ setToken }) {
 		if (reason === "clickaway") {
 			return;
 		}
-
 		setOpen(false);
 	};
 

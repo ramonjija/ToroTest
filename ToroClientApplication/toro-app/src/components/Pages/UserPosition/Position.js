@@ -3,7 +3,7 @@ import { Card, CardContent, Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Share from "./Share";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	paper: {
 		width: "200px",
 	},

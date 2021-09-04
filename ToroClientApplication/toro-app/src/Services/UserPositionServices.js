@@ -1,9 +1,11 @@
 export async function getUserPositions(token) {
-	return fetch("http://localhost:5100/api/userPosition/login", {
+	return fetch("http://localhost:5100/api/UserPosition", {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
-			Bearer: token,
+			Authorization: `Bearer ${token}`,
 		},
-	}).then((data) => data.json());
+	}).then((data) => {
+		return data.json();
+	});
 }

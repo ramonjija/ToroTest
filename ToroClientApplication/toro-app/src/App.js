@@ -4,7 +4,6 @@ import Login from "./components/Pages/SignIn/Login";
 import UserPosition from "./components/Pages/UserPosition/UserPosition";
 import UserCreation from "./components/Pages/SignUp/UserCreation";
 import useToken from "./Utils/useToken";
-import { useState } from "react";
 
 function App() {
 	const { token, setToken } = useToken();

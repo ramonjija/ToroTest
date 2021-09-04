@@ -1,36 +1,78 @@
-import React from "react";
-import { Typography } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import useToken from "../../../Utils/useToken";
+import React, { useEffect, useState } from "react";
+import { getUserName } from "../../../Utils/useToken";
 import UserAccount from "./UserAccount";
 import Position from "./Position";
+import { Box } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { getUserPositions } from "../../../Services/UserPositionServices";
+import useToken from "../../../Utils/useToken";
 
+const useStyles = makeStyles(() => ({
+	userPosition: {
+		display: "flex",
+		flexDirection: "row",
+	},
+}));
 export default function UserPosition() {
-	const userName = "Ramon";
-	var positionTest = {
-		symbol: "PETR4",
-		amount: 1,
-		currentPrice: 10.0,
-	};
+	const classes = useStyles();
+	const userName = getUserName();
+	const { token, setToken } = useToken();
+	const [userPositions, setPositions] = useState();
 
-	const accountTest = {
-		checkingAccountAmount: 100.0,
-		consolidated: 110,
-		positions: [],
-	};
+	useEffect(() => {
+		async function getPosition() {
+			var positions = await getUserPositions(token);
+			setPositions(positions);
+		}
+		getPosition();
+	}, []);
+
+	// REMOVER!
+	// const accountTest = {
+	// 	checkingAccountAmount: 100.0,
+	// 	consolidated: 110,
+	// 	positions: [
+	// 		{
+	// 			symbol: "PETR4",
+	// 			amount: 1,
+	// 			currentPrice: 10.0,
+	// 		},
+	// 		{
+	// 			symbol: "M4GL",
+	// 			amount: 2,
+	// 			currentPrice: 20.0,
+	// 		},
+	// 	],
+	// };
+
 	return (
 		<div>
 			<h1>User Position</h1>
-			<UserAccount
-				userName={userName}
-				checkingAccountAmount={accountTest.checkingAccountAmount}
-				consolidated={accountTest.consolidated}
-			/>
-			<Position
-				symbol={positionTest.symbol}
-				amount={positionTest.amount}
-				currentPrice={positionTest.currentPrice}
-			/>
+			{userPositions ? (
+				<UserAccount
+					userName={userName}
+					checkingAccountAmount={userPositions.checkingAccountAmount}
+					consolidated={userPositions.consolidated}
+				/>
+			) : (
+				<UserAccount
+					userName={userName}
+					checkingAccountAmount={0}
+					consolidated={0}
+				/>
+			)}
+			<Box className={classes.userPosition}>
+				{userPositions &&
+					userPositions.positions.map((userPosition, i) => {
+						return (
+							<Position
+								symbol={userPosition.symbol}
+								amount={userPosition.amount}
+								currentPrice={userPosition.currentPrice}
+							/>
+						);
+					})}
+			</Box>
 		</div>
 	);
 }

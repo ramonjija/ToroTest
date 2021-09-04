@@ -19,6 +19,19 @@ const useStyles = makeStyles((theme) => ({
 	icon: {
 		backgroundColor: "transparent !important",
 	},
+	userName: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		width: "200px",
+	},
+	userAccount: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		width: "100%",
+		justifyContent: "flex-start",
+	},
 }));
 
 export default function UserAccount({
@@ -32,13 +45,7 @@ export default function UserAccount({
 		<div className={classes.root}>
 			<AppBar position="static">
 				<Toolbar>
-					<Box
-						display="flex"
-						flexDirection="row"
-						m={1}
-						alignItems="center"
-						width="100%"
-						justifyContent="flex-start">
+					<Box m={1} className={classes.userAccount}>
 						<Box p={1}>
 							<Typography variant="h6">Saldo</Typography>
 						</Box>
@@ -57,7 +64,7 @@ export default function UserAccount({
 						</Box>
 					</Box>
 
-					<Box display="flex" flexDirection="row" alignItems="center" p={1}>
+					<Box p={1} class={classes.userName}>
 						<Avatar className={classes.icon}>
 							<AccountCircleIcon />
 						</Avatar>
