@@ -2,25 +2,14 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Login from "./components/Pages/SignIn/Login";
 import UserPosition from "./components/Pages/UserPosition/UserPosition";
-import { useState } from "react";
 import UserCreation from "./components/Pages/SignUp/UserCreation";
-
-function setToken(userToken) {
-	sessionStorage.setItem("token", JSON.stringify(userToken));
-}
-
-function getToken() {
-	const tokenString = sessionStorage.getItem("token");
-	const userToken = JSON.parse(tokenString);
-	return userToken;
-}
+import useToken from "./Utils/useToken";
+import { useState } from "react";
 
 function App() {
-	debugger;
-	const token = getToken();
-	//const [token, setToken] = useState();
+	const { token, setToken } = useToken();
 
-	//if (!token) return <Login setToken={setToken} />;
+	if (!token) return <Login setToken={setToken} />;
 
 	return (
 		<div className="wrapper">

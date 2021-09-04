@@ -10,7 +10,8 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { createUser, cpfMask } from "../../../Services/LoginServices";
+import { createUser } from "../../../Services/LoginServices";
+import { cpfMask } from "../../../Utils/index";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -63,7 +64,9 @@ export default function UserCreation() {
 			setValidationMessage("User Created successfully! Please Sign In");
 			setSeverity("success");
 			setOpen(true);
-			history.push("/SignIn");
+			setTimeout(() => {
+				history.push("/SignIn");
+			}, 1000);
 		} else {
 			setValidationMessage(userCreateAttempt[0]);
 			setSeverity("error");

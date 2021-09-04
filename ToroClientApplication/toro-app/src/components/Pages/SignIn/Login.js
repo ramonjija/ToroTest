@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-	BrowserRouter as Router,
-	Route,
-	Link,
-	useHistory,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -19,7 +14,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import PropTypes from "prop-types";
-import { loginUser, cpfMask } from "../../../Services/LoginServices";
+import { loginUser } from "../../../Services/LoginServices";
+import { cpfMask } from "../../../Utils/index";
 import UserCreation from "../SignUp/UserCreation";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login({ setToken }) {
 	const classes = useStyles();
-	const history = useHistory();
 
 	const [cpf, setCpf] = useState();
 	const [password, setPassword] = useState();
@@ -69,8 +64,9 @@ export default function Login({ setToken }) {
 			setValidationMessage("Login successfully!");
 			setSeverity("success");
 			setOpen(true);
-			setToken(token);
-			history.push("/");
+			setTimeout(() => {
+				setToken(token);
+			}, 1000);
 		} else {
 			setValidationMessage(loginAttempt[0]);
 			setSeverity("error");
