@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	makeStyles,
 	MenuItem,
@@ -6,9 +6,11 @@ import {
 	TextField,
 	Button,
 } from "@material-ui/core";
-import { Modal, Select, Fade, Box } from "@material-ui/core";
+import { Modal, Select, Fade } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import { getShares } from "../../../Services/UserPositionServices";
+import useToken from "../../../Utils/useToken";
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -40,8 +42,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ModalShares({ open, onClose }) {
 	const classes = useStyles();
+	const { token, setToken } = useToken();
 	const [paper, setPaper] = useState();
 	const [amount, setAmount] = useState();
+	const [shares, setShares] = useState();
+
+	useEffect(() => {
+		async function getAllShares() {
+			var shares = await getShares(token);
+			setShares(shares);
+		}
+		getAllShares();
+	}, []);
 
 	const handleChange = (event) => {
 		console.log(event.target.value);
@@ -55,19 +67,6 @@ export default function ModalShares({ open, onClose }) {
 	const handleAmount = (event) => {
 		setAmount(event.target.value);
 	};
-
-	const shares = [
-		{
-			id: 1,
-			symbol: "PETR4",
-			currentPrice: 10.0,
-		},
-		{
-			id: 2,
-			symbol: "M4GL",
-			currentPrice: 20.0,
-		},
-	];
 
 	return (
 		<Modal

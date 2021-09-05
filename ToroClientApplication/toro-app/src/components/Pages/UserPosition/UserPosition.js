@@ -27,24 +27,6 @@ export default function UserPosition() {
 		getPosition();
 	}, []);
 
-	// REMOVER!
-	// const accountTest = {
-	// 	checkingAccountAmount: 100.0,
-	// 	consolidated: 110,
-	// 	positions: [
-	// 		{
-	// 			symbol: "PETR4",
-	// 			amount: 1,
-	// 			currentPrice: 10.0,
-	// 		},
-	// 		{
-	// 			symbol: "M4GL",
-	// 			amount: 2,
-	// 			currentPrice: 20.0,
-	// 		},
-	// 	],
-	// };
-
 	return (
 		<div>
 			<h1>User Position</h1>
