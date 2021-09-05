@@ -56,5 +56,29 @@ namespace ToroApplication.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [Authorize]
+        [HttpPost("balance")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserPositionDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddBalance([FromBody] AddBalanceDto addedBalance)
+        {
+            try
+            {
+                var serviceResult = await _orderService.AddBalance(addedBalance.Balance, GetUserCpf());
+                if (!serviceResult.Success)
+                    return BadRequest(serviceResult.ValidationMessages);
+
+                var userPositionDto = new UserPositionAdapter().Adapt(serviceResult.Result);
+
+                return Created($"UserPosition: {userPositionDto}", userPositionDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

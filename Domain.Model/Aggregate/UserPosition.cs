@@ -86,5 +86,13 @@ namespace Domain.Model.Aggregate
             return null;
         }
 
+
+        public UserPosition AddBalance(double addedBalance)
+        {
+            CheckingAccountAmount += addedBalance;
+            Consolidated = ConsolidatePositions();
+            return this;
+        }
+
     }
 }

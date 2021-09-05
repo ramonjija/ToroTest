@@ -117,6 +117,27 @@ namespace Domain.Service.Services
                 throw ex;
             }
         }
+        
+        public async Task<IServiceResult<User>> GetUser(string cpf)
+        {
+            try
+            {
+                var serviceResult = new ServiceResult<User>();
+                var user = await _unitOfWork.Users.GetUserByCpf(cpf);
+                if (user == null)
+                {
+                    serviceResult.AddMessage("User Not Found");
+                    return serviceResult;
+                }
+
+                serviceResult.SetResult(user);
+                return serviceResult;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public async Task<IServiceResult<IEnumerable<User>>> GetUser()
         {
@@ -195,5 +216,6 @@ namespace Domain.Service.Services
 
             return cpf.EndsWith(digit);
         }
+
     }
 }

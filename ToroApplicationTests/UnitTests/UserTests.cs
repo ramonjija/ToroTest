@@ -76,6 +76,22 @@ namespace ToroApplicationTests.UnitTests
         }
 
         [Test]
+        public async Task Should_Get_User_By_CPF()
+        {
+            //Arrange
+            unitOfWorkMock.Setup(c => c.Users.GetUserByCpf(It.IsAny<string>())).ReturnsAsync(new User(cpf, userName, passwordHash));
+
+            //Act
+            var serviceResult = await userService.GetUser(cpf);
+
+            //Assert
+            Assert.IsTrue(serviceResult.Success);
+            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.AreEqual(userName, serviceResult.Result.UserName);
+            Assert.IsTrue(new PasswordService().IsPasswordValid(password, serviceResult.Result.PasswordHash));
+        }
+
+        [Test]
         public async Task Should_Get_User_By_CPF_Password()
         {
             //Arrange

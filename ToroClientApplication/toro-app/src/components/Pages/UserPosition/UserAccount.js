@@ -3,9 +3,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { Box, Avatar, Button } from "@material-ui/core";
+import {
+	Box,
+	Avatar,
+	Button,
+	FormControl,
+	InputLabel,
+	TextField,
+} from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ModalShares from "./ModalShares";
+import ModalBalance from "./ModalBalance";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -33,6 +41,18 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		justifyContent: "flex-start",
 	},
+	balanceText: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		width: "100px",
+	},
+	balanceBtn: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		width: "200px",
+	},
 }));
 
 export default function UserAccount({
@@ -42,6 +62,8 @@ export default function UserAccount({
 }) {
 	const classes = useStyles();
 	const [openModal, setOpenModal] = useState(false);
+	const [openModalBalance, setOpenModalBalance] = useState(false);
+	const [balance, setBalance] = useState(false);
 
 	const handleOpenModal = () => {
 		setOpenModal(!openModal);
@@ -50,6 +72,13 @@ export default function UserAccount({
 		setOpenModal(false);
 	};
 
+	const handleOpenBalanceModal = () => {
+		setOpenModalBalance(!openModalBalance);
+	};
+
+	const handleCloseBalanceModal = () => {
+		setOpenModalBalance(false);
+	};
 	return (
 		<div className={classes.root}>
 			<AppBar position="static">
@@ -78,6 +107,15 @@ export default function UserAccount({
 							<ModalShares
 								openModal={openModal}
 								closeModal={handleCloseModal}
+							/>
+						</Box>
+						<Box p={1}>
+							<Button variant="contained" onClick={handleOpenBalanceModal}>
+								Adicionar Saldo
+							</Button>
+							<ModalBalance
+								openModal={openModalBalance}
+								closeModal={handleCloseBalanceModal}
 							/>
 						</Box>
 					</Box>

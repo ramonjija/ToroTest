@@ -34,3 +34,16 @@ export async function buyShare(token, order) {
 		return data.json();
 	});
 }
+
+export async function addBalance(token, balance) {
+	return fetch("http://localhost:5100/api/order/balance", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(balance),
+	}).then((data) => {
+		return data.json();
+	});
+}

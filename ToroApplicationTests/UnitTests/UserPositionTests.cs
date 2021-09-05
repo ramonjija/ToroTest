@@ -254,5 +254,19 @@ namespace ToroApplicationTests.UnitTests
             Assert.AreEqual(user, userPosition.User);
             Assert.IsNotEmpty(userPosition.Positions);
         }
+
+        [Test]
+        public void Should_Add_Balance_To_User()
+        {
+            var userPosition = new UserPosition(null, 10, user);
+            //Act
+            userPosition.AddBalance(10);
+            //Assert
+            Assert.AreEqual(0, userPosition.UserPositionId);
+            Assert.AreEqual(20, userPosition.Consolidated);
+            Assert.AreEqual(20, userPosition.CheckingAccountAmount);
+            Assert.AreEqual(user, userPosition.User);
+            Assert.IsEmpty(userPosition.Positions);
+        }
     }
 }
