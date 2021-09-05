@@ -64,8 +64,23 @@ namespace ToroApplicationTests.UnitTests
             Assert.AreEqual(positions, serviceResult.Result.Positions);
         }
 
+        //[Test]
+        //public async Task Should_Get_Nullable_Position_By_Cpf()
+        //{
+        //    //Arrange
+        //    unitOfWorkMock.Setup(c => c.UserPositions.GetPositionByCpf(It.IsAny<string>())).ReturnsAsync(() => null);
+
+        //    //Act
+        //    var serviceResult = await userPositionService.GetUserPosition(cpf).ConfigureAwait(false);
+
+        //    //Assert
+        //    Assert.IsTrue(serviceResult.Success);
+        //    Assert.IsEmpty(serviceResult.ValidationMessages);
+        //    Assert.IsNull(serviceResult.Result);
+        //}
+
         [Test]
-        public async Task Should_Get_Nullable_Position_By_Cpf()
+        public async Task Should_Get_Position_Not_Found_By_Cpf()
         {
             //Arrange
             unitOfWorkMock.Setup(c => c.UserPositions.GetPositionByCpf(It.IsAny<string>())).ReturnsAsync(() => null);
@@ -74,9 +89,10 @@ namespace ToroApplicationTests.UnitTests
             var serviceResult = await userPositionService.GetUserPosition(cpf).ConfigureAwait(false);
 
             //Assert
-            Assert.IsTrue(serviceResult.Success);
-            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
+            Assert.IsNotEmpty(serviceResult.ValidationMessages);
+            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), $"User Position not found");
         }
 
         [Test]

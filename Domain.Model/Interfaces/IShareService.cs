@@ -9,5 +9,6 @@ namespace Domain.Model.Interfaces
     public interface IShareService
     {
         Task<IServiceResult<IEnumerable<Share>>> GetAllShares();
+        Task<IServiceResult<Share>> GetShare(string shareSymbol);
     }
 }

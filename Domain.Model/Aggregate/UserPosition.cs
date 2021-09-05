@@ -51,6 +51,7 @@ namespace Domain.Model.Aggregate
             Consolidated = ConsolidatePositions();
         }
 
+    
         public void RemovePositionsOfUser(IEnumerable<Position> positionsToRemove)
         {
             if (Positions == null)
@@ -63,5 +64,19 @@ namespace Domain.Model.Aggregate
             }
             Consolidated = ConsolidatePositions();
         }
+
+        public UserPosition AddPositionToUser(Share share, int amount)
+        {
+            var shareValue = (share.CurrentPrice * amount);
+            if (CheckingAccountAmount >= shareValue)
+            {
+                CheckingAccountAmount -= shareValue;
+                Positions.Add(new Position(share, amount));
+                Consolidated = ConsolidatePositions();
+                return this;
+            }
+            return null;
+        }
+
     }
 }

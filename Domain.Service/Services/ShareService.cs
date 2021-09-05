@@ -21,5 +21,18 @@ namespace Domain.Service.Services
             serviceResult.SetResult(shares);
             return serviceResult;
         }
+
+        public async Task<IServiceResult<Share>> GetShare(string shareSymbol)
+        {
+            var share = await _unitOfWork.ShareRepository.GetBySymbol(shareSymbol).ConfigureAwait(false);
+            var serviceResult = new ServiceResult<Share>();
+            if(share == null)
+            {
+                serviceResult.AddMessage("Share not found");
+                return serviceResult;
+            }
+            serviceResult.SetResult(share);
+            return serviceResult;
+        }
     }
 }

@@ -114,6 +114,7 @@ namespace ToroApplication
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IUserPositionService, UserPositionService>();
             services.AddScoped<IShareService, ShareService>();
+            services.AddScoped<IOrderService, OrderService>();
             //
 
         }
