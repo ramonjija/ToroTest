@@ -4,6 +4,12 @@
         <name>ToroApplication</name>
     </assembly>
     <members>
+        <member name="M:ToroApplication.Controllers.ShareController.GetShares">
+            <summary>
+            This route is responsible to return all the shares of the system
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:ToroApplication.Controllers.UserController.Post(ToroApplication.DTOs.Request.PostUserDto)">
             <summary>
             This Route is Used to Create Users

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ToroApplicationTests.UnitTests
 {
     [TestFixture]
-    public class User_Tests
+    public class UserTests
     {
         private Mock<IUnitOfWork> unitOfWorkMock;
         private IUserService userService;
