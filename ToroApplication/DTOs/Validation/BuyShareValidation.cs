@@ -12,7 +12,7 @@ namespace ToroApplication.DTOs.Validation
         public BuyShareValidation()
         {
             RuleFor(c => c.ShareSymbol).NotEmpty();
-            RuleFor(c => c.Amout).NotEmpty();
+            RuleFor(c => c.Amount).NotEmpty();
         }
     }
 }

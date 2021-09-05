@@ -43,7 +43,7 @@ namespace ToroApplication.Controllers
                 if (!validationResult.IsValid)
                     return BadRequest(validationResult.Errors.Select(c => c.ErrorMessage));
 
-                var serviceResult = await _orderService.BuyShare(buyShareDto.ShareSymbol, buyShareDto.Amout, GetUserCpf());
+                var serviceResult = await _orderService.BuyShare(buyShareDto.ShareSymbol, buyShareDto.Amount, GetUserCpf());
                 if (!serviceResult.Success)
                     return BadRequest(serviceResult.ValidationMessages);
 

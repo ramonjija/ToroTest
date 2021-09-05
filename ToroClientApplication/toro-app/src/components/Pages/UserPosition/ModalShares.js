@@ -9,7 +9,7 @@ import {
 import { Modal, Select, Fade } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import { getShares } from "../../../Services/UserPositionServices";
+import { getShares, buyShare } from "../../../Services/UserPositionServices";
 import useToken from "../../../Utils/useToken";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,13 +38,16 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: "150px",
 		paddingLeft: "2%",
 	},
+	totalAmount: {
+		padding: theme.spacing(2),
+	},
 }));
 
 export default function ModalShares({ open, onClose }) {
 	const classes = useStyles();
 	const { token, setToken } = useToken();
 	const [paper, setPaper] = useState();
-	const [amount, setAmount] = useState();
+	const [amount, setAmount] = useState(0);
 	const [shares, setShares] = useState();
 
 	useEffect(() => {
@@ -60,12 +63,25 @@ export default function ModalShares({ open, onClose }) {
 		setPaper(event.target.value);
 	};
 
-	const handleBuyShare = (event) => {
-		console.log({ paper, amount });
+	const handleBuyShare = async (event) => {
+		var result = await buyShare(token, { ShareSymbol: paper, Amount: amount });
+		console.log(result);
 	};
 
 	const handleAmount = (event) => {
 		setAmount(event.target.value);
+	};
+
+	const calculateTotalMount = () => {
+		if (shares !== 0) {
+			return shares.map((share, i) => {
+				if (share.symbol === paper) {
+					return share.currentPrice * amount;
+				}
+				return null;
+			});
+		}
+		return 0;
 	};
 
 	return (
@@ -98,7 +114,7 @@ export default function ModalShares({ open, onClose }) {
 								})}
 						</Select>
 						<TextField
-							id="standard-number"
+							id="qtd-share"
 							label="Quantidade"
 							type="number"
 							InputLabelProps={{
@@ -114,6 +130,10 @@ export default function ModalShares({ open, onClose }) {
 							Comprar
 						</Button>
 					</FormControl>
+					<Typography variant="subtitle1" className={classes.totalAmount}>
+						Valor Total: R$
+						{shares && calculateTotalMount()}
+					</Typography>
 				</div>
 			</Fade>
 		</Modal>

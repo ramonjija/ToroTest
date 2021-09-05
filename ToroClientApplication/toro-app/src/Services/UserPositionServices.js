@@ -21,3 +21,17 @@ export async function getShares(token) {
 		return data.json();
 	});
 }
+
+export async function buyShare(token, order) {
+	debugger;
+	return fetch("http://localhost:5100/api/order", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(order),
+	}).then((data) => {
+		return data.json();
+	});
+}

@@ -25,7 +25,7 @@ namespace ToroApplicationTests.UnitTests
         private IEnumerable<Position> positions;
 
         [SetUp]
-        public void SetUp() 
+        public void SetUp()
         {
             user = new User(cpf, userName, passwordHash);
             positions = new List<Position>()
@@ -154,6 +154,46 @@ namespace ToroApplicationTests.UnitTests
             Assert.AreEqual(10, userPosition.CheckingAccountAmount);
             Assert.AreEqual(user, userPosition.User);
             Assert.IsNotEmpty(userPosition.Positions);
+        }
+
+        [Test]
+        public void Should_Increase_Amount_Of_Existing_Position()
+        {
+            //Arrange
+            var positions = new List<Position>()
+            {
+                new Position()
+                {
+                    PositionId = 1,
+                    Amout = 1,
+                    Share = new Share()
+                    {
+                        ShareId = 1,
+                        CurrentPrice = 10,
+                        Symbol = "TEST1"
+                    }
+                }
+            };
+
+            var share = new Share()
+            {
+                ShareId = 1,
+                CurrentPrice = 2,
+                Symbol = "TEST1"
+            };
+
+            var userPosition = new UserPosition(positions, 10, user);
+
+            //Act
+            userPosition.AddPositionToUser(share, 2);
+
+            //Assert
+            Assert.AreEqual(0, userPosition.UserPositionId);
+            Assert.AreEqual(36, userPosition.Consolidated);
+            Assert.AreEqual(6, userPosition.CheckingAccountAmount);
+            Assert.AreEqual(user, userPosition.User);
+            Assert.IsNotEmpty(userPosition.Positions);
+            Assert.AreEqual(3, userPosition.Positions.Select(c => c.Amout).FirstOrDefault());
         }
 
         [Test]

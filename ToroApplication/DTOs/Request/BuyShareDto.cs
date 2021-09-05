@@ -8,7 +8,7 @@ namespace ToroApplication.DTOs.Request
     public class BuyShareDto
     {
         public string ShareSymbol { get; set; }
-        public int Amout { get; set; }
+        public int Amount { get; set; }
 
     }
 }

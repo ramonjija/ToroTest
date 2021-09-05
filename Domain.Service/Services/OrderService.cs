@@ -22,41 +22,48 @@ namespace Domain.Service.Services
         }
         public async Task<IServiceResult<UserPosition>> BuyShare(string shareSymbol, int amount, string userCpf)
         {
-            var serviceResult = new ServiceResult<UserPosition>();
-            var shareResult = await _shareService.GetShare(shareSymbol).ConfigureAwait(false);
-            if (!shareResult.Success)
+            try
             {
-                foreach (var validationMessage in shareResult.ValidationMessages)
+                var serviceResult = new ServiceResult<UserPosition>();
+                var shareResult = await _shareService.GetShare(shareSymbol).ConfigureAwait(false);
+                if (!shareResult.Success)
                 {
-                    serviceResult.AddMessage(validationMessage);
+                    foreach (var validationMessage in shareResult.ValidationMessages)
+                    {
+                        serviceResult.AddMessage(validationMessage);
+                    }
+                    return serviceResult;
                 }
-                return serviceResult;
-            }
 
-            var userPositionResult = await _userPositionService.GetUserPosition(userCpf).ConfigureAwait(false);
-            if (!userPositionResult.Success)
-            {
-                foreach (var validationMessage in userPositionResult.ValidationMessages)
+                var userPositionResult = await _userPositionService.GetUserPosition(userCpf).ConfigureAwait(false);
+                if (!userPositionResult.Success)
                 {
-                    serviceResult.AddMessage(validationMessage);
+                    foreach (var validationMessage in userPositionResult.ValidationMessages)
+                    {
+                        serviceResult.AddMessage(validationMessage);
+                    }
+                    return serviceResult;
                 }
+
+                var share = shareResult.Result;
+                var userPosition = userPositionResult.Result;
+                var updatedPosition = userPosition.AddPositionToUser(share, amount);
+                if (updatedPosition == null)
+                {
+                    serviceResult.AddMessage("Share could not be bought. Check Account Amount");
+                    return serviceResult;
+                }
+
+                _unitOfWork.UserPositions.Update(updatedPosition);
+                await _unitOfWork.Commit();
+                serviceResult.SetResult(updatedPosition);
+
                 return serviceResult;
             }
-
-            var share = shareResult.Result;
-            var userPosition = userPositionResult.Result;
-            var updatedPosition = userPosition.AddPositionToUser(share, amount);
-            if(updatedPosition == null)
+            catch (Exception ex)
             {
-                serviceResult.AddMessage("Share could not be bought. Check Account Amount");
-                return serviceResult;
+                throw;
             }
-
-            _unitOfWork.UserPositions.Update(updatedPosition);
-            _unitOfWork.Commit();
-            serviceResult.SetResult(updatedPosition);
-
-            return serviceResult;
         }
     }
 }

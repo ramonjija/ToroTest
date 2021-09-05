@@ -45,19 +45,19 @@ namespace Domain.Model.Aggregate
             if (Positions == null)
                 Positions = new List<Position>();
 
-            if(positionsToAdd != null)
+            if (positionsToAdd != null)
                 Positions.AddRange(positionsToAdd);
 
             Consolidated = ConsolidatePositions();
         }
 
-    
+
         public void RemovePositionsOfUser(IEnumerable<Position> positionsToRemove)
         {
             if (Positions == null)
                 Positions = new List<Position>();
 
-            if(positionsToRemove != null)
+            if (positionsToRemove != null)
             {
                 HashSet<int> positionIds = new HashSet<int>(positionsToRemove.Select(x => x.PositionId));
                 Positions.RemoveAll(c => positionIds.Contains(c.PositionId));
@@ -71,7 +71,15 @@ namespace Domain.Model.Aggregate
             if (CheckingAccountAmount >= shareValue)
             {
                 CheckingAccountAmount -= shareValue;
-                Positions.Add(new Position(share, amount));
+                var existingPosition = Positions.FirstOrDefault(c => c.Share.Symbol == share.Symbol);
+                if (existingPosition != null)
+                {
+                    existingPosition.Amout += amount;
+                }
+                else
+                {
+                    Positions.Add(new Position(share, amount));
+                }
                 Consolidated = ConsolidatePositions();
                 return this;
             }
