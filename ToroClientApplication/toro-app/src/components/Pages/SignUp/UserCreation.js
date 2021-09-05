@@ -53,22 +53,28 @@ export default function UserCreation() {
 	};
 
 	const handleCreateUser = async () => {
-		var userCreateAttempt = await createUser({
-			name,
-			cpf,
-			password,
-		});
+		try {
+			var userCreateAttempt = await createUser({
+				name,
+				cpf,
+				password,
+			});
 
-		const { userId } = userCreateAttempt;
-		if (userId) {
-			setValidationMessage("User Created successfully! Please Sign In");
-			setSeverity("success");
-			setOpen(true);
-			setTimeout(() => {
-				history.push("/SignIn");
-			}, 1000);
-		} else {
-			setValidationMessage(userCreateAttempt[0]);
+			const { userId } = userCreateAttempt;
+			if (userId) {
+				setValidationMessage("User Created successfully! Please Sign In");
+				setSeverity("success");
+				setOpen(true);
+				setTimeout(() => {
+					history.push("/SignIn");
+				}, 1000);
+			} else {
+				setValidationMessage(userCreateAttempt[0]);
+				setSeverity("error");
+				setOpen(true);
+			}
+		} catch (error) {
+			setValidationMessage(error.message);
 			setSeverity("error");
 			setOpen(true);
 		}

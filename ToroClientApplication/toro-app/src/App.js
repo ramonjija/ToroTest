@@ -27,14 +27,14 @@ function App() {
 							<Link to="/SignUp">Sign Up</Link>
 						</li>
 						<li>
-							<Link to="/UserPosition">User Position</Link>
+							<Link to="/userposition">User Position</Link>
 						</li>
 					</ul>
 				</nav>
 				<Switch>
 					<Route exact path="/">
 						{token ? (
-							<Redirect to="/UserPosition" />
+							<Redirect to="/userposition" />
 						) : (
 							<Login setToken={setToken} />
 						)}
@@ -47,7 +47,7 @@ function App() {
 						<UserCreation />
 					</Route>
 					{token && (
-						<Route path="/UserPosition">
+						<Route path="/userposition">
 							<UserPosition />
 						</Route>
 					)}

@@ -13,6 +13,7 @@ namespace ToroApplication.Mappers
         {
             return new UserPositionDto()
             {
+                UserPositionId = userPosition.UserPositionId,
                 CheckingAccountAmount = userPosition.CheckingAccountAmount,
                 Consolidated = userPosition.Consolidated,
                 Positions = userPosition.Positions?.Select(c => new PositionDto()

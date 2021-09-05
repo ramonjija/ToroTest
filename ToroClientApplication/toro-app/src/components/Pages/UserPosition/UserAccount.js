@@ -44,7 +44,7 @@ export default function UserAccount({
 	const [openModal, setOpenModal] = useState(false);
 
 	const handleOpenModal = () => {
-		setOpenModal(true);
+		setOpenModal(!openModal);
 	};
 	const handleCloseModal = () => {
 		setOpenModal(false);
@@ -75,7 +75,10 @@ export default function UserAccount({
 							<Button variant="contained" onClick={handleOpenModal}>
 								Comprar Ações
 							</Button>
-							<ModalShares open={openModal} onClose={handleCloseModal} />
+							<ModalShares
+								openModal={openModal}
+								closeModal={handleCloseModal}
+							/>
 						</Box>
 					</Box>
 

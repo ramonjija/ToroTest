@@ -6,11 +6,13 @@ import {
 	TextField,
 	Button,
 } from "@material-ui/core";
-import { Modal, Select, Fade } from "@material-ui/core";
+import { Modal, Select, Fade, Snackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import { getShares, buyShare } from "../../../Services/UserPositionServices";
 import useToken from "../../../Utils/useToken";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -43,29 +45,65 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ModalShares({ open, onClose }) {
+export default function ModalShares({ openModal, closeModal }) {
 	const classes = useStyles();
+	const history = useHistory();
 	const { token, setToken } = useToken();
 	const [paper, setPaper] = useState();
 	const [amount, setAmount] = useState(0);
 	const [shares, setShares] = useState();
+	const [validationMessage, setValidationMessage] = useState(null);
+	const [openValidation, setOpenValidation] = useState(false);
+	const [severity, setSeverity] = useState();
 
 	useEffect(() => {
 		async function getAllShares() {
-			var shares = await getShares(token);
-			setShares(shares);
+			try {
+				var shares = await getShares(token);
+				setShares(shares);
+			} catch (error) {
+				console.log(error.message);
+			}
 		}
 		getAllShares();
 	}, []);
 
+	const handleClose = (event, reason) => {
+		if (reason === "clickaway") {
+			return;
+		}
+		setOpenValidation(false);
+	};
+
 	const handleChange = (event) => {
-		console.log(event.target.value);
 		setPaper(event.target.value);
 	};
 
 	const handleBuyShare = async (event) => {
-		var result = await buyShare(token, { ShareSymbol: paper, Amount: amount });
-		console.log(result);
+		try {
+			var result = await buyShare(token, {
+				ShareSymbol: paper,
+				Amount: amount,
+			});
+			const { userPositionId } = result;
+
+			if (userPositionId) {
+				setValidationMessage("Share bought successfully!");
+				setSeverity("success");
+				setTimeout(() => {
+					closeModal();
+					history.go(0);
+				}, 1000);
+			} else {
+				setValidationMessage(result[0]);
+				setSeverity("error");
+			}
+			setOpenValidation(true);
+		} catch (error) {
+			setValidationMessage(error.message);
+			setSeverity("error");
+			setOpenValidation(true);
+		}
 	};
 
 	const handleAmount = (event) => {
@@ -86,12 +124,12 @@ export default function ModalShares({ open, onClose }) {
 
 	return (
 		<Modal
-			open={open}
-			onClose={onClose}
+			open={openModal}
+			onClose={closeModal}
 			aria-labelledby="simple-modal-title"
 			aria-describedby="simple-modal-description"
 			className={classes.modal}>
-			<Fade in={open}>
+			<Fade in={openModal}>
 				<div className={classes.paper}>
 					<Typography gutterBottom variant="h4">
 						Comprar Ações
@@ -120,6 +158,7 @@ export default function ModalShares({ open, onClose }) {
 							InputLabelProps={{
 								shrink: true,
 							}}
+							value={amount}
 							onChange={handleAmount}
 						/>
 						<Button
@@ -134,6 +173,16 @@ export default function ModalShares({ open, onClose }) {
 						Valor Total: R$
 						{shares && calculateTotalMount()}
 					</Typography>
+					{validationMessage && (
+						<Snackbar
+							open={openValidation}
+							autoHideDuration={2000}
+							onClose={handleClose}>
+							<MuiAlert severity={severity} elevation={6} variant="filled">
+								{validationMessage}
+							</MuiAlert>
+						</Snackbar>
+					)}
 				</div>
 			</Fade>
 		</Modal>

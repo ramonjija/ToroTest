@@ -23,7 +23,6 @@ export async function getShares(token) {
 }
 
 export async function buyShare(token, order) {
-	debugger;
 	return fetch("http://localhost:5100/api/order", {
 		method: "POST",
 		headers: {

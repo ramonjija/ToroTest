@@ -49,7 +49,6 @@ export default function Login({ setToken }) {
 	const [cpf, setCpf] = useState();
 	const [password, setPassword] = useState();
 	const [validationMessage, setValidationMessage] = useState();
-
 	const [open, setOpen] = React.useState(false);
 	const [severity, setSeverity] = React.useState();
 
@@ -61,19 +60,25 @@ export default function Login({ setToken }) {
 	};
 
 	const handleLogin = async () => {
-		var loginAttempt = await loginUser({ cpf, password });
-		const { token } = loginAttempt;
+		try {
+			var loginAttempt = await loginUser({ cpf, password });
+			const { token } = loginAttempt;
 
-		if (token) {
-			setValidationMessage("Login successfully!");
-			setSeverity("success");
-			setOpen(true);
-			setTimeout(() => {
-				setToken(token);
-				history.push("/UserPosition");
-			}, 1000);
-		} else {
-			setValidationMessage(loginAttempt[0]);
+			if (token) {
+				setValidationMessage("Login successfully!");
+				setSeverity("success");
+				setOpen(true);
+				setTimeout(() => {
+					setToken(token);
+					history.push("/userposition");
+				}, 1000);
+			} else {
+				setValidationMessage(loginAttempt[0]);
+				setSeverity("error");
+				setOpen(true);
+			}
+		} catch (error) {
+			setValidationMessage(error.message);
 			setSeverity("error");
 			setOpen(true);
 		}

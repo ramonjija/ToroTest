@@ -50,7 +50,7 @@ namespace Domain.Service.Services
                 var updatedPosition = userPosition.AddPositionToUser(share, amount);
                 if (updatedPosition == null)
                 {
-                    serviceResult.AddMessage("Share could not be bought. Check Account Amount");
+                    serviceResult.AddMessage("Share could not be bought. Check Account Balance");
                     return serviceResult;
                 }
 
