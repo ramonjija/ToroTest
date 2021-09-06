@@ -48,7 +48,7 @@ export default function ModalBalance({ openModal, closeModal }) {
 	const classes = useStyles();
 	const history = useHistory();
 	const { token } = useToken();
-	const [balance, setBalance] = useState(0);
+	const [balance, setBalance] = useState();
 	const [validationMessage, setValidationMessage] = useState(null);
 	const [openValidation, setOpenValidation] = useState(false);
 	const [severity, setSeverity] = useState();
@@ -90,7 +90,11 @@ export default function ModalBalance({ openModal, closeModal }) {
 
 	const handleBalance = (event) => {
 		const balanceInput = event.target.value;
-		setBalance(balanceInput);
+		const pattern = /^[0-9^&*)]*[.]{0,1}[0-9^&*)]{0,2}$/;
+
+		if (pattern.test(balanceInput)) {
+			setBalance(balanceInput);
+		}
 	};
 
 	return (

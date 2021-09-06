@@ -145,7 +145,6 @@ export default function UserCreation() {
 						type="submit"
 						fullWidth
 						variant="contained"
-						color="primary"
 						className={classes.submit}
 						onClick={handleCreateUser}>
 						Register

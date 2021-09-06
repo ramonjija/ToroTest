@@ -111,7 +111,10 @@ export default function ModalShares({ openModal, closeModal }) {
 	};
 
 	const handleAmount = (event) => {
-		setAmount(event.target.value);
+		const pattern = /^[0-9\b]+$/;
+		if (event.target.value === 0 || pattern.test(event.target.value)) {
+			setAmount(event.target.value);
+		}
 	};
 
 	const calculateTotalMount = () => {
@@ -163,6 +166,8 @@ export default function ModalShares({ openModal, closeModal }) {
 								shrink: true,
 							}}
 							value={amount}
+							pattern="[0-9]*"
+							error={!/^[0-9\b]+$/.test(amount)}
 							onChange={handleAmount}
 						/>
 						<Button
