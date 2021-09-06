@@ -60,7 +60,7 @@ From there, create your User with a valid CPF and you'll be redirected to the ma
 
 You can Add "money" to your balance to buy some Shares.
 
-The API uses JWT for Authentication and Authorizarion of some resources such as:  
+The API can be access through the address http://localhost:5100, and uses JWT for Authentication and Authorizarion of some resources such as:  
 
 * Sign In to the application;
 * Get the User Position;
