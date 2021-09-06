@@ -1,6 +1,6 @@
 # 💸 Toro Application - Investing Toro 📈
 
-This Application is used to buy shares for authenticated users of Toro Investments. 
+This Application is used to buy shares for authenticated users of Toro Investments.
 The application provides the creation of the user (Sign Up), as well as login (Sign In).
 From there the authenticated user can buy shares that are pre-loaded at the Database if the user has the necessary amout of Balance.
 The Application also provides a way to Add Balance to the user, make it possible to buy shares.
@@ -56,37 +56,40 @@ The command should be runned at root folder of the application, where <b>docker-
 
 After all the containers are up, navigate to http://localhost:3000 to go the Toro's Investments Sign In page.
 
+From there, create your User with a valid CPF and you'll be redirected to the main page of the Application, the User Position.
+
+You can Add "money" to your balance to buy some Shares.
+
 The API uses JWT for Authentication and Authorizarion of some resources such as:  
 
-  1 - Sign In to the application;
-  2 - Get the User Position;
-  3 - Add Balance to the User Position;
-  4 - Buy Shares;
+* Sign In to the application;
+* Get the User Position;
+* Add Balance to the User Position;
+* Buy Shares;
 
 The application is based on the following principles:  
 
-- User must be logged to get access of the application
-- Logged user can view the Balance of the account;
-- Logged user can view the Consolidated Balance of the account, that is the sum of all the positions plus the Current Balance;
-- Logged user Add Balance to buy Shares;
-- Logged user can buy Shares only if the user has the required amount of Balance in account;
+* User must be logged access the resources of the application;
+* Logged user can View the Balance of the account;
+* Logged user can View the Consolidated Balance of the account, that is the sum of all the positions plus the Current Balance;
+* Logged user can Add money to your Balance to buy Shares;
+* Logged user can Buy Shares only if the user has the required amount of Balance in account;
 
 ## Tools
 
 The Application is built on:
+* Frontend:
+  * React
+  * React-Material-UI
 
--Frontend:
--- React
--- React-Material-UI
+* Backend:
+  * .Net Core 3.1
+  * Sql Server 2017
+  * Cryptography (BCrypt.Net)
+  * JWT Token
+  * EF Core
+  * NUnit
 
--Backend:
--- .Net Core 3.1
--- Sql Server 2017
--- Cryptography (BCrypt.Net)
--- JWT Token
--- EF Core
--- NUnit
-
--Infrastructure
--- Docker
--- Docker-Compose
+* Infrastructure
+  * Docker
+  * Docker-Compose
