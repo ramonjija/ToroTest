@@ -31,39 +31,30 @@ namespace Domain.Service.Services
                 var userServiceResult = await _userService.GetUser(userCpf).ConfigureAwait(false);
                 if (!userServiceResult.Success)
                 {
-                    foreach (var validationMessage in userServiceResult.ValidationMessages)
-                    {
-                        serviceResult.AddMessage(validationMessage);
-                    }
+                    serviceResult.Validator.AddMessage(userServiceResult.Validator.ValidationMessages);
                     return serviceResult;
                 }
 
                 var shareResult = await _shareService.GetShare(shareSymbol).ConfigureAwait(false);
                 if (!shareResult.Success)
                 {
-                    foreach (var validationMessage in shareResult.ValidationMessages)
-                    {
-                        serviceResult.AddMessage(validationMessage);
-                    }
+                    serviceResult.Validator.AddMessage(shareResult.Validator.ValidationMessages);
                     return serviceResult;
                 }
 
                 var userPositionResult = await _userPositionService.GetUserPosition(userCpf).ConfigureAwait(false);
                 if (!userPositionResult.Success)
                 {
-                    foreach (var validationMessage in userPositionResult.ValidationMessages)
-                    {
-                        serviceResult.AddMessage(validationMessage);
-                    }
+                    serviceResult.Validator.AddMessage(userPositionResult.Validator.ValidationMessages);
                     return serviceResult;
                 }
 
                 var share = shareResult.Result;
                 var userPosition = userPositionResult.Result;
                 var updatedPosition = userPosition.AddPositionToUser(share, amount);
-                if (updatedPosition == null)
+                if (!updatedPosition.Validator.IsValid)
                 {
-                    serviceResult.AddMessage("Share could not be bought. Check Account Balance");
+                    serviceResult.Validator.AddMessage(updatedPosition.Validator.ValidationMessages);
                     return serviceResult;
                 }
 
@@ -87,9 +78,9 @@ namespace Domain.Service.Services
                 var userServiceResult = await _userService.GetUser(userCpf).ConfigureAwait(false);
                 if (!userServiceResult.Success)
                 {
-                    foreach (var validationMessage in userServiceResult.ValidationMessages)
+                    foreach (var validationMessage in userServiceResult.Validator.ValidationMessages)
                     {
-                        serviceResult.AddMessage(validationMessage);
+                        serviceResult.Validator.AddMessage(validationMessage);
                     }
                     return serviceResult;
                 }

@@ -23,7 +23,7 @@ namespace Domain.Service.Services
                 var userPosition = await _unitOfWork.UserPositions.GetPositionByCpf(cpf).ConfigureAwait(false);
                 if (userPosition == null)
                 {
-                    serviceResult.AddMessage("User Position not found");
+                    serviceResult.Validator.AddMessage("User Position not found");
                     return serviceResult;
                 }
                 serviceResult.SetResult(userPosition);

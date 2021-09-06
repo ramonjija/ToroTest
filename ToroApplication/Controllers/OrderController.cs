@@ -45,7 +45,7 @@ namespace ToroApplication.Controllers
 
                 var serviceResult = await _orderService.BuyShare(buyShareDto.ShareSymbol, buyShareDto.Amount, GetUserCpf());
                 if (!serviceResult.Success)
-                    return BadRequest(serviceResult.ValidationMessages);
+                    return BadRequest(serviceResult.Validator.ValidationMessages);
 
                 var userPositionDto = new UserPositionAdapter().Adapt(serviceResult.Result);
 
@@ -69,7 +69,7 @@ namespace ToroApplication.Controllers
             {
                 var serviceResult = await _orderService.AddBalance(addedBalance.Balance, GetUserCpf());
                 if (!serviceResult.Success)
-                    return BadRequest(serviceResult.ValidationMessages);
+                    return BadRequest(serviceResult.Validator.ValidationMessages);
 
                 var userPositionDto = new UserPositionAdapter().Adapt(serviceResult.Result);
 

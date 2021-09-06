@@ -53,7 +53,7 @@ namespace ToroApplication.Controllers
 
                 var serviceResult = await _userservice.CreateUser(postUserDto.CPF, postUserDto.Name, postUserDto.Password);
                 if (!serviceResult.Success)
-                    return BadRequest(serviceResult.ValidationMessages);
+                    return BadRequest(serviceResult.Validator.ValidationMessages);
 
                 var createdUser = new UserAdapter().Adapt(serviceResult.Result);
 
@@ -84,7 +84,7 @@ namespace ToroApplication.Controllers
 
                 var serviceResult = await _userservice.GetUser(logUserDto.CPF, logUserDto.Password);
                 if (!serviceResult.Success)
-                    return BadRequest(serviceResult.ValidationMessages);
+                    return BadRequest(serviceResult.Validator.ValidationMessages);
 
                 var token = TokenService.GenerateToken(serviceResult.Result);
 

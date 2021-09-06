@@ -56,7 +56,7 @@ namespace ToroApplicationTests.UnitTests
 
             //Assert
             Assert.IsTrue(serviceResult.Success);
-            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.IsEmpty(serviceResult.Validator.ValidationMessages);
             Assert.AreEqual(0, serviceResult.Result.UserPositionId);
             Assert.AreEqual(10, serviceResult.Result.Consolidated);
             Assert.AreEqual(9, serviceResult.Result.CheckingAccountAmount);
@@ -75,7 +75,7 @@ namespace ToroApplicationTests.UnitTests
 
         //    //Assert
         //    Assert.IsTrue(serviceResult.Success);
-        //    Assert.IsEmpty(serviceResult.ValidationMessages);
+        //    Assert.IsEmpty(serviceResult.Validator.ValidationMessages);
         //    Assert.IsNull(serviceResult.Result);
         //}
 
@@ -91,8 +91,8 @@ namespace ToroApplicationTests.UnitTests
             //Assert
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), $"User Position not found");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), $"User Position not found");
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace ToroApplicationTests.UnitTests
 
             //Assert
             Assert.IsTrue(serviceResult.Success);
-            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.IsEmpty(serviceResult.Validator.ValidationMessages);
             Assert.AreEqual(0, serviceResult.Result.UserPositionId);
             Assert.AreEqual(10, serviceResult.Result.Consolidated);
             Assert.AreEqual(10, serviceResult.Result.CheckingAccountAmount);

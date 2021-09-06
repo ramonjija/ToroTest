@@ -28,7 +28,7 @@ namespace Domain.Service.Services
             var serviceResult = new ServiceResult<Share>();
             if(share == null)
             {
-                serviceResult.AddMessage("Share not found");
+                serviceResult.Validator.AddMessage("Share not found");
                 return serviceResult;
             }
             serviceResult.SetResult(share);

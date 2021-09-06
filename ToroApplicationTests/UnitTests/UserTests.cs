@@ -38,7 +38,7 @@ namespace ToroApplicationTests.UnitTests
 
             //Assert
             Assert.IsTrue(serviceResult.Success);
-            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.IsEmpty(serviceResult.Validator.ValidationMessages);
             Assert.AreEqual(userName, serviceResult.Result.UserName);
             Assert.AreEqual(passwordHash, serviceResult.Result.PasswordHash);
         }
@@ -55,8 +55,8 @@ namespace ToroApplicationTests.UnitTests
             //Assert
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), $"There's already a user with this CPF. 'CPF: {cpf}'");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), $"There's already a user with this CPF. 'CPF: {cpf}'");
         }
 
         [Test]
@@ -71,8 +71,8 @@ namespace ToroApplicationTests.UnitTests
             //Assert
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), $"The CPF's format is invalid. 'CPF: {incorrectCpf}'");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), $"The CPF's format is invalid. 'CPF: {incorrectCpf}'");
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace ToroApplicationTests.UnitTests
 
             //Assert
             Assert.IsTrue(serviceResult.Success);
-            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.IsEmpty(serviceResult.Validator.ValidationMessages);
             Assert.AreEqual(userName, serviceResult.Result.UserName);
             Assert.IsTrue(new PasswordService().IsPasswordValid(password, serviceResult.Result.PasswordHash));
         }
@@ -102,7 +102,7 @@ namespace ToroApplicationTests.UnitTests
 
             //Assert
             Assert.IsTrue(serviceResult.Success);
-            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.IsEmpty(serviceResult.Validator.ValidationMessages);
             Assert.AreEqual(userName, serviceResult.Result.UserName);
             Assert.IsTrue(new PasswordService().IsPasswordValid(password, serviceResult.Result.PasswordHash));
         }
@@ -120,8 +120,8 @@ namespace ToroApplicationTests.UnitTests
             //Assert
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), "User Not Found");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), "User Not Found");
         }
 
         [Test]
@@ -136,8 +136,8 @@ namespace ToroApplicationTests.UnitTests
             //Assert
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), "Incorrect Password");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), "Incorrect Password");
         }
 
 

@@ -90,7 +90,7 @@ namespace ToroApplicationTests.UnitTests
             //Act
             var serviceResult = await orderService.BuyShare("TEST3", 1, cpf).ConfigureAwait(false);
             Assert.IsTrue(serviceResult.Success);
-            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.IsEmpty(serviceResult.Validator.ValidationMessages);
             Assert.AreEqual(0, serviceResult.Result.UserPositionId);
             Assert.AreEqual(10, serviceResult.Result.Consolidated);
             Assert.AreEqual(8, serviceResult.Result.CheckingAccountAmount);
@@ -104,30 +104,30 @@ namespace ToroApplicationTests.UnitTests
         {
             //Arrange
             var userServiceResult = new ServiceResult<User>();
-            userServiceResult.AddMessage("User not found");
+            userServiceResult.Validator.AddMessage("User not found");
             userServiceMock.Setup(c => c.GetUser(It.IsAny<string>())).ReturnsAsync(userServiceResult);
 
             //Act
             var serviceResult = await orderService.BuyShare("TEST3", 1, cpf).ConfigureAwait(false);
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), "User not found");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), "User not found");
         }
         [Test]
         public async Task Should_Not_Add_Share_To_Position_Share_Not_Found()
         {
             //Arrange
             shareServiceResult = new ServiceResult<Share>();
-            shareServiceResult.AddMessage("Share not found");
+            shareServiceResult.Validator.AddMessage("Share not found");
             shareServiceMock.Setup(c => c.GetShare(It.IsAny<string>())).ReturnsAsync(shareServiceResult);
 
             //Act
             var serviceResult = await orderService.BuyShare("TEST3", 1, cpf).ConfigureAwait(false);
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), $"Share not found");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), $"Share not found");
         }
 
         [Test]
@@ -135,15 +135,15 @@ namespace ToroApplicationTests.UnitTests
         {
             //Arrange
             userPositionServiceResult = new ServiceResult<UserPosition>();
-            userPositionServiceResult.AddMessage("User Position not found");
+            userPositionServiceResult.Validator.AddMessage("User Position not found");
             userPositionServiceMock.Setup(c => c.GetUserPosition(It.IsAny<string>())).ReturnsAsync(userPositionServiceResult);
 
             //Act
             var serviceResult = await orderService.BuyShare("TEST3", 1, cpf).ConfigureAwait(false);
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), $"User Position not found");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), $"User Position not found");
         }
 
         [Test]
@@ -154,8 +154,8 @@ namespace ToroApplicationTests.UnitTests
             var serviceResult = await orderService.BuyShare("TEST3", 1000, cpf).ConfigureAwait(false);
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), $"Share could not be bought. Check Account Balance");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), $"Share could not be bought. Check Account Balance");
         }
 
         [Test]
@@ -163,13 +163,13 @@ namespace ToroApplicationTests.UnitTests
         {
             //Arrange
             var newUserPositionServiceResult = new ServiceResult<UserPosition>();
-            newUserPositionServiceResult.AddMessage("User position not found");
+            newUserPositionServiceResult.Validator.AddMessage("User position not found");
             userPositionServiceMock.Setup(c => c.GetUserPosition(It.IsAny<string>())).ReturnsAsync(newUserPositionServiceResult);
 
             //Act
             var serviceResult = await orderService.AddBalance(10, cpf).ConfigureAwait(false);
             Assert.IsTrue(serviceResult.Success);
-            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.IsEmpty(serviceResult.Validator.ValidationMessages);
             Assert.AreEqual(0, serviceResult.Result.UserPositionId);
             Assert.AreEqual(10, serviceResult.Result.Consolidated);
             Assert.AreEqual(10, serviceResult.Result.CheckingAccountAmount);
@@ -184,7 +184,7 @@ namespace ToroApplicationTests.UnitTests
             //Act
             var serviceResult = await orderService.AddBalance(10, cpf).ConfigureAwait(false);
             Assert.IsTrue(serviceResult.Success);
-            Assert.IsEmpty(serviceResult.ValidationMessages);
+            Assert.IsEmpty(serviceResult.Validator.ValidationMessages);
             Assert.AreEqual(0, serviceResult.Result.UserPositionId);
             Assert.AreEqual(20, serviceResult.Result.Consolidated);
             Assert.AreEqual(19, serviceResult.Result.CheckingAccountAmount);
@@ -198,15 +198,15 @@ namespace ToroApplicationTests.UnitTests
         {
             //Arrange
             var userServiceResult = new ServiceResult<User>();
-            userServiceResult.AddMessage("User not found");
+            userServiceResult.Validator.AddMessage("User not found");
             userServiceMock.Setup(c => c.GetUser(It.IsAny<string>())).ReturnsAsync(userServiceResult);
 
             //Act
             var serviceResult = await orderService.AddBalance(10, cpf).ConfigureAwait(false);
             Assert.IsFalse(serviceResult.Success);
             Assert.IsNull(serviceResult.Result);
-            Assert.IsNotEmpty(serviceResult.ValidationMessages);
-            Assert.AreEqual(serviceResult.ValidationMessages.FirstOrDefault(), "User not found");
+            Assert.IsNotEmpty(serviceResult.Validator.ValidationMessages);
+            Assert.AreEqual(serviceResult.Validator.ValidationMessages.FirstOrDefault(), "User not found");
         }
     }
 }

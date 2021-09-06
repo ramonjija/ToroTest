@@ -1,6 +1,7 @@
 ﻿using Domain.Model.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +12,7 @@ namespace Domain.Model.Aggregate
         public UserPosition()
         {
             Positions = new List<Position>();
+            Validator = new EntityValidator();
         }
 
         public UserPosition(IEnumerable<Position> positions, double checkingAccountAmount, double consolidated, User user)
@@ -19,6 +21,7 @@ namespace Domain.Model.Aggregate
             CheckingAccountAmount = checkingAccountAmount;
             Consolidated = consolidated;
             User = user;
+            Validator = new EntityValidator();
         }
 
         public UserPosition(IEnumerable<Position> positions, double checkingAccountAmount, User user)
@@ -27,7 +30,11 @@ namespace Domain.Model.Aggregate
             AddPositionsToUser(positions);
             CheckingAccountAmount = checkingAccountAmount;
             Consolidated = ConsolidatePositions();
+            Validator = new EntityValidator();
         }
+        
+        [NotMapped]
+        public EntityValidator Validator { get; private set; }
 
         public int UserPositionId { get; private set; }
         public List<Position> Positions { get; private set; }
@@ -81,9 +88,12 @@ namespace Domain.Model.Aggregate
                     Positions.Add(new Position(share, amount));
                 }
                 Consolidated = ConsolidatePositions();
-                return this;
             }
-            return null;
+            else
+            {
+                Validator.AddMessage("Share could not be bought. Check Account Balance");
+            }
+            return this;
         }
 
 

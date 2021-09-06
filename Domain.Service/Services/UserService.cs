@@ -27,13 +27,13 @@ namespace Domain.Service.Services
                 var existingUser = await _unitOfWork.Users.GetUserByCpf(cpf);
                 if (existingUser != null)
                 {
-                    serviceResult.AddMessage($"There's already a user with this CPF. 'CPF: {cpf}'");
+                    serviceResult.Validator.AddMessage($"There's already a user with this CPF. 'CPF: {cpf}'");
                     return serviceResult;
                 }
 
                 if (!IsCpfValid(cpf))
                 {
-                    serviceResult.AddMessage($"The CPF's format is invalid. 'CPF: {cpf}'");
+                    serviceResult.Validator.AddMessage($"The CPF's format is invalid. 'CPF: {cpf}'");
                     return serviceResult;
                 }
 
@@ -59,12 +59,12 @@ namespace Domain.Service.Services
                 var user = await _unitOfWork.Users.GetUserByCpf(cpf);
                 if (user == null)
                 {
-                    serviceResult.AddMessage("User Not Found");
+                    serviceResult.Validator.AddMessage("User Not Found");
                     return serviceResult;
                 }
                 if (!_passwordService.IsPasswordValid(password, user.PasswordHash))
                 {
-                    serviceResult.AddMessage("Incorrect Password");
+                    serviceResult.Validator.AddMessage("Incorrect Password");
                     return serviceResult;
                 }
 
@@ -85,7 +85,7 @@ namespace Domain.Service.Services
                 var deletedUser = await _unitOfWork.Users.Delete(userId);
                 if (deletedUser == null)
                 {
-                    serviceResult.AddMessage("User Not Found");
+                    serviceResult.Validator.AddMessage("User Not Found");
                     return serviceResult;
                 }
                 await _unitOfWork.Commit();
@@ -106,7 +106,7 @@ namespace Domain.Service.Services
                 var user = await _unitOfWork.Users.GetById(userId);
                 if (user == null)
                 {
-                    serviceResult.AddMessage("User Not Found");
+                    serviceResult.Validator.AddMessage("User Not Found");
                     return serviceResult;
                 }
                 serviceResult.SetResult(user);
@@ -126,7 +126,7 @@ namespace Domain.Service.Services
                 var user = await _unitOfWork.Users.GetUserByCpf(cpf);
                 if (user == null)
                 {
-                    serviceResult.AddMessage("User Not Found");
+                    serviceResult.Validator.AddMessage("User Not Found");
                     return serviceResult;
                 }
 
@@ -163,7 +163,7 @@ namespace Domain.Service.Services
                 var user = await _unitOfWork.Users.GetById(userId);
                 if (user == null)
                 {
-                    serviceResult.AddMessage("User Not Found");
+                    serviceResult.Validator.AddMessage("User Not Found");
                     return serviceResult;
                 }
                 serviceResult.SetResult(user);
