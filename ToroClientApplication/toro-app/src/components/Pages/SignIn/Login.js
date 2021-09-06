@@ -152,7 +152,14 @@ export default function Login({ setToken }) {
 					</Grid>
 				</form>
 				{validationMessage && (
-					<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+					<Snackbar
+						open={open}
+						autoHideDuration={6000}
+						onClose={handleClose}
+						anchorOrigin={{
+							vertical: "top",
+							horizontal: "center",
+						}}>
 						<MuiAlert severity={severity} elevation={6} variant="filled">
 							{validationMessage}
 						</MuiAlert>

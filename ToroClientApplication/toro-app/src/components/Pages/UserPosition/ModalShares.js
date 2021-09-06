@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ModalShares({ openModal, closeModal }) {
 	const classes = useStyles();
 	const history = useHistory();
-	const { token, setToken } = useToken();
+	const { token } = useToken();
 	const [paper, setPaper] = useState();
 	const [amount, setAmount] = useState(0);
 	const [shares, setShares] = useState();
@@ -117,7 +117,7 @@ export default function ModalShares({ openModal, closeModal }) {
 		}
 	};
 
-	const calculateTotalMount = () => {
+	const calculateTotalAmount = () => {
 		if (shares !== 0) {
 			return shares.map((share, i) => {
 				if (share.symbol === paper) {
@@ -180,13 +180,17 @@ export default function ModalShares({ openModal, closeModal }) {
 					</FormControl>
 					<Typography variant="subtitle1" className={classes.totalAmount}>
 						Total Amount: R$
-						{shares && calculateTotalMount()}
+						{shares && calculateTotalAmount()}
 					</Typography>
 					{validationMessage && (
 						<Snackbar
 							open={openValidation}
 							autoHideDuration={2000}
-							onClose={handleClose}>
+							onClose={handleClose}
+							anchorOrigin={{
+								vertical: "top",
+								horizontal: "center",
+							}}>
 							<MuiAlert severity={severity} elevation={6} variant="filled">
 								{validationMessage}
 							</MuiAlert>

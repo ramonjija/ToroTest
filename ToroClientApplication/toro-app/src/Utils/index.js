@@ -7,9 +7,9 @@ export const cpfMask = (value) => {
 		.replace(/(-\d{2})\d+?$/, "$1");
 };
 
-export const numberValidation = (value) => {
-	const number = value.replace(/(?!0\.00)\d{1,3}(,\d{3})*(\.\d\d)?$/, "");
-	return number;
+export const validateCurrency = (value) => {
+	const pattern = /^[0-9^&*)]*[.]{0,1}[0-9^&*)]{0,2}$/;
+	return pattern.test(value);
 };
 
 export const formatCents = (value) => {

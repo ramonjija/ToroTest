@@ -90,6 +90,9 @@ export default function UserCreation() {
 		}
 	};
 
+	const validateCPF = (value) => {
+		setCpf(cpfMask(value));
+	};
 	return (
 		<Container component="main" className={classes.container}>
 			<CssBaseline />
@@ -116,7 +119,9 @@ export default function UserCreation() {
 						type="text"
 						autoComplete="number"
 						autoFocus
-						onChange={(e) => setCpf(cpfMask(e.target.value))}
+						value={cpf}
+						inputProps={{ maxLength: 14, minLength: 11 }}
+						onChange={(e) => validateCPF(e.target.value)}
 					/>
 					<TextField
 						margin="normal"

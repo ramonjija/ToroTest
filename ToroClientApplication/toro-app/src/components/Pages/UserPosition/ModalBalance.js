@@ -5,7 +5,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import FormControl from "@material-ui/core/FormControl";
 import { addBalance } from "../../../Services/UserPositionServices";
 import useToken from "../../../Utils/useToken";
-import { numberValidation } from "../../../Utils";
+import { validateCurrency } from "../../../Utils";
 
 import { useHistory } from "react-router";
 
@@ -48,10 +48,11 @@ export default function ModalBalance({ openModal, closeModal }) {
 	const classes = useStyles();
 	const history = useHistory();
 	const { token } = useToken();
-	const [balance, setBalance] = useState();
+	const [balance, setBalance] = useState(null);
 	const [validationMessage, setValidationMessage] = useState(null);
 	const [openValidation, setOpenValidation] = useState(false);
 	const [severity, setSeverity] = useState();
+	const [buttonDisabled, setButtonDisabled] = useState(true);
 
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") {
@@ -62,8 +63,6 @@ export default function ModalBalance({ openModal, closeModal }) {
 
 	const handleAddBalance = async (event) => {
 		try {
-			const formattedBalance = numberValidation(balance);
-
 			const result = await addBalance(token, {
 				Balance: balance,
 			});
@@ -88,12 +87,19 @@ export default function ModalBalance({ openModal, closeModal }) {
 		}
 	};
 
+	const handleButtonDisplay = (input) => {
+		if (input.length > 0) {
+			setButtonDisabled(false);
+		} else {
+			setButtonDisabled(true);
+		}
+	};
+
 	const handleBalance = (event) => {
 		const balanceInput = event.target.value;
-		const pattern = /^[0-9^&*)]*[.]{0,1}[0-9^&*)]{0,2}$/;
-
-		if (pattern.test(balanceInput)) {
+		if (validateCurrency(balanceInput)) {
 			setBalance(balanceInput);
+			handleButtonDisplay(balanceInput);
 		}
 	};
 
@@ -102,7 +108,7 @@ export default function ModalBalance({ openModal, closeModal }) {
 			<Fade in={openModal}>
 				<div className={classes.paper}>
 					<Typography gutterBottom variant="h4">
-						Add Balance
+						Add to Balance
 					</Typography>
 					<FormControl className={classes.formControl}>
 						<TextField
@@ -112,6 +118,8 @@ export default function ModalBalance({ openModal, closeModal }) {
 								startAdornment: (
 									<InputAdornment position="start">R$</InputAdornment>
 								),
+								maxLength: 18,
+								minLength: 1,
 							}}
 							value={balance}
 							onChange={handleBalance}
@@ -119,6 +127,7 @@ export default function ModalBalance({ openModal, closeModal }) {
 						<Button
 							id="btn-buy-share"
 							variant="contained"
+							disabled={buttonDisabled}
 							className={classes.button}
 							onClick={handleAddBalance}>
 							Add
@@ -128,7 +137,11 @@ export default function ModalBalance({ openModal, closeModal }) {
 						<Snackbar
 							open={openValidation}
 							autoHideDuration={2000}
-							onClose={handleClose}>
+							onClose={handleClose}
+							anchorOrigin={{
+								vertical: "top",
+								horizontal: "center",
+							}}>
 							<MuiAlert severity={severity} elevation={6} variant="filled">
 								{validationMessage}
 							</MuiAlert>
