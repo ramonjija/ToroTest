@@ -25,6 +25,9 @@ namespace ToroApplication.Controllers
             _userPositionService = userPositionService;
         }
 
+        /// <summary>
+        /// This Route is responsible to get the User Position of the user, it consists on the Current Balance, Consolidated Balance and the Shares owned by the authenticated user
+        /// </summary>
         [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPositionDto))]

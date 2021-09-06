@@ -33,7 +33,6 @@ namespace Domain.Model.Aggregate
             Consolidated = ConsolidatePositions();
         }
         
-        [NotMapped]
         public EntityValidator Validator { get; private set; }
 
         public int UserPositionId { get; private set; }

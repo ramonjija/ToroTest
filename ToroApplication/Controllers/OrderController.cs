@@ -28,6 +28,13 @@ namespace ToroApplication.Controllers
             _orderService = orderService;
         }
 
+        /// <summary>
+        /// This Route is responsible to buy Shares for the authenticated user
+        /// </summary>
+        /// <param name="buyShareDto">
+        /// ShareSymbol = The symbol used to identify the share;
+        /// Amount = The quantity of the share that will be bought;
+        /// </param>
         [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserPositionDto))]
@@ -38,7 +45,6 @@ namespace ToroApplication.Controllers
         {
             try
             {
-                //TODO: Implement FluentValidator for DTO
                 var validationResult = new BuyShareValidation().Validate(buyShareDto);
                 if (!validationResult.IsValid)
                     return BadRequest(validationResult.Errors.Select(c => c.ErrorMessage));
@@ -57,6 +63,12 @@ namespace ToroApplication.Controllers
             }
         }
 
+        /// <summary>
+        /// This Route is responsible to add Balance (money) to the authenticated user
+        /// </summary>
+        /// <param name="addedBalance">
+        /// Balance = The amount of money that the user wants to add to the balance
+        /// </param>
         [Authorize]
         [HttpPost("balance")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserPositionDto))]

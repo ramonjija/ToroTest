@@ -30,7 +30,7 @@ namespace ToroApplication.Controllers
         }
 
         /// <summary>
-        /// This Route is Used to Create Users
+        /// This Route is used to Create users
         /// </summary>
         /// <param name="postUserDto">
         /// Name = Name of the User
@@ -65,7 +65,7 @@ namespace ToroApplication.Controllers
         }
 
         /// <summary>
-        /// This Route is Responsible for the Login of the User
+        /// This Route is responsible for the Login of the user
         /// </summary>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoggedUserDto))]

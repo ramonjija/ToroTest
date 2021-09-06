@@ -28,7 +28,6 @@ namespace ToroApplication.Controllers
         /// <summary>
         /// This route is responsible to return all the shares of the system
         /// </summary>
-        /// <returns></returns>
         [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ShareDto>))]

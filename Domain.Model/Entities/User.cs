@@ -22,7 +22,6 @@ namespace Domain.Model.Entities
             PasswordHash = passwordHash;
         }
         
-        [NotMapped]
         public EntityValidator Validator { get; private set; }
 
         public int UserId { get; protected set; }
