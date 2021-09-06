@@ -10,10 +10,11 @@ import { formatCents } from "../../../Utils/index";
 
 const useStyles = makeStyles(() => ({
 	userPositionStyle: {
-		display: "flex",
-		flexDirection: "row",
+		display: "grid",
 		padding: "20px",
 		backgroundColor: "#f6f8fb",
+		gridTemplateColumns: "200px 200px 200px 200px 200px",
+		justifyContent: "center",
 		height: "100vh",
 	},
 }));

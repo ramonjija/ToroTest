@@ -5,11 +5,10 @@ import Share from "./Share";
 
 const useStyles = makeStyles(() => ({
 	paper: {
-		width: "100%",
+		height: "150px",
 		margin: "10px",
 		color: "#fff",
 		backgroundColor: "#6131b4",
-		height: "25%",
 	},
 	box: {
 		display: "flex",
