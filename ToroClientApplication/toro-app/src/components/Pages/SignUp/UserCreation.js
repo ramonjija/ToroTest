@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: "#6561a4",
 	},
 	container: {
-		width: "30%",
+		width: "400px",
 		boxShadow: "0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%)",
 		backgroundColor: "white",
 		paddingBottom: "30px",
@@ -98,10 +98,10 @@ export default function UserCreation() {
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
-					<LockOutlinedIcon />
+					<AccountCircleIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Register
+					Register at Toro
 				</Typography>
 				<form
 					className={classes.form}

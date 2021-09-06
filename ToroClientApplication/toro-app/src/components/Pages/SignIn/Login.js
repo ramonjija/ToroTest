@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: "#6561a4",
 	},
 	container: {
-		width: "30%",
+		width: "400px",
 		boxShadow: "0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%)",
 		backgroundColor: "white",
 		paddingBottom: "30px",
@@ -103,7 +103,7 @@ export default function Login({ setToken }) {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Sign In at Toro
+					Sign In Toro
 				</Typography>
 				<form
 					className={classes.form}
