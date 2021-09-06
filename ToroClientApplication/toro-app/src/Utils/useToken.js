@@ -15,8 +15,14 @@ export default function useToken() {
 		setToken(userToken);
 	};
 
+	const logoutUser = () => {
+		sessionStorage.clear();
+		setToken(null);
+	};
+
 	return {
 		setToken: saveToken,
+		logOut: logoutUser,
 		token,
 	};
 }

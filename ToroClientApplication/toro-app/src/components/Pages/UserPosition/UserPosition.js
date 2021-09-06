@@ -1,49 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { getUserName } from "../../../Utils/useToken";
-import UserAccount from "./UserAccount";
+import MenuAccount from "./MenuAccount";
 import Position from "./Position";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { getUserPositions } from "../../../Services/UserPositionServices";
 import useToken from "../../../Utils/useToken";
+import { formatCents } from "../../../Utils/index";
 
 const useStyles = makeStyles(() => ({
-	userPosition: {
+	userPositionStyle: {
 		display: "flex",
 		flexDirection: "row",
+		padding: "20px",
+		backgroundColor: "#f6f8fb",
+		height: "100vh",
 	},
 }));
 export default function UserPosition() {
 	const classes = useStyles();
+	const { token } = useToken();
+
 	const userName = getUserName();
-	const { token, setToken } = useToken();
-	const [userPositions, setPositions] = useState();
+	const [userPositions, setPositions] = useState(null);
 
 	useEffect(() => {
 		async function getPosition() {
-			var positions = await getUserPositions(token);
-			setPositions(positions);
+			var positonAttempt = await getUserPositions(token);
+			const { userPositionId } = positonAttempt;
+			if (userPositionId) {
+				setPositions(positonAttempt);
+			}
 		}
 		getPosition();
 	}, []);
 
 	return (
 		<div>
-			<h1>User Position</h1>
 			{userPositions ? (
-				<UserAccount
+				<MenuAccount
 					userName={userName}
-					checkingAccountAmount={userPositions.checkingAccountAmount}
-					consolidated={userPositions.consolidated}
+					checkingAccountAmount={formatCents(
+						userPositions.checkingAccountAmount
+					)}
+					consolidated={formatCents(userPositions.consolidated)}
 				/>
 			) : (
-				<UserAccount
+				<MenuAccount
 					userName={userName}
 					checkingAccountAmount={0}
 					consolidated={0}
 				/>
 			)}
-			<Box className={classes.userPosition}>
+			<Box className={classes.userPositionStyle}>
 				{userPositions &&
 					userPositions.positions.map((userPosition, i) => {
 						return (

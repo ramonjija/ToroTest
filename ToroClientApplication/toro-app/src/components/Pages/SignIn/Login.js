@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-	BrowserRouter as Router,
-	Route,
-	Link,
-	useHistory,
-} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -21,38 +16,48 @@ import MuiAlert from "@material-ui/lab/Alert";
 import PropTypes from "prop-types";
 import { loginUser } from "../../../Services/LoginServices";
 import { cpfMask } from "../../../Utils/index";
-import UserCreation from "../SignUp/UserCreation";
 
 const useStyles = makeStyles((theme) => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-	},
 	avatar: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: "#6561a4",
+	},
+	container: {
+		width: "30%",
+		boxShadow: "0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%)",
+		backgroundColor: "white",
+		paddingBottom: "30px",
 	},
 	form: {
-		width: "100%", // Fix IE 11 issue.
+		width: "100%",
 		marginTop: theme.spacing(1),
 	},
 	submit: {
+		backgroundColor: "#6131b4",
+		color: "#fff",
 		margin: theme.spacing(3, 0, 2),
+		padding: "10px",
+	},
+	paper: {
+		marginTop: theme.spacing(8),
+		marginBotton: theme.spacing(8),
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		width: "100%",
 	},
 }));
 
 export default function Login({ setToken }) {
 	const classes = useStyles();
 	const history = useHistory();
-	const [cpf, setCpf] = useState();
+	const [cpf, setCpf] = useState("");
 	const [password, setPassword] = useState();
 	const [validationMessage, setValidationMessage] = useState();
 	const [open, setOpen] = React.useState(false);
 	const [severity, setSeverity] = React.useState();
 
-	const handleClose = (event, reason) => {
+	const handleClose = (evt, reason) => {
 		if (reason === "clickaway") {
 			return;
 		}
@@ -61,7 +66,10 @@ export default function Login({ setToken }) {
 
 	const handleLogin = async () => {
 		try {
-			var loginAttempt = await loginUser({ cpf, password });
+			var loginAttempt = await loginUser({
+				cpf: cpf.replace(/\D/g, ""),
+				password,
+			});
 			const { token } = loginAttempt;
 
 			if (token) {
@@ -84,15 +92,18 @@ export default function Login({ setToken }) {
 		}
 	};
 
+	const validateCPF = (value) => {
+		setCpf(cpfMask(value));
+	};
+
 	return (
-		<Container component="main" maxWidth="xs">
-			<CssBaseline />
+		<Container component="main" className={classes.container}>
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Sign In
+					Sign In at Toro
 				</Typography>
 				<form
 					className={classes.form}
@@ -101,8 +112,7 @@ export default function Login({ setToken }) {
 						e.preventDefault();
 					}}>
 					<TextField
-						variant="outlined"
-						margin="normal"
+						margin="small"
 						required={true}
 						fullWidth
 						id="cpf"
@@ -111,11 +121,11 @@ export default function Login({ setToken }) {
 						name="cpf"
 						autoComplete="number"
 						autoFocus
+						value={cpf}
 						inputProps={{ maxLength: 14, minLength: 11 }}
-						onChange={(e) => setCpf(e.target.value)}
+						onChange={(e) => validateCPF(e.target.value)}
 					/>
 					<TextField
-						variant="outlined"
 						margin="normal"
 						required={true}
 						fullWidth
@@ -126,27 +136,18 @@ export default function Login({ setToken }) {
 						autoComplete="current-password"
 						onChange={(e) => setPassword(e.target.value)}
 					/>
-					<FormControlLabel
-						control={<Checkbox value="remember" color="primary" />}
-						label="Remember me"
-					/>
+
 					<Button
 						type="submit"
 						fullWidth
 						variant="contained"
-						color="primary"
 						className={classes.submit}
 						onClick={handleLogin}>
 						Sign In
 					</Button>
 					<Grid container>
 						<Grid item>
-							<Router>
-								<Link to="/SignUp">
-									{"Não possui uma conta? Cadastre-se aqui"}
-								</Link>
-								<Route path="/SignUp" component={UserCreation} />
-							</Router>
+							<a href="/signup">{"Don't have an account? Register here"}</a>
 						</Grid>
 					</Grid>
 				</form>

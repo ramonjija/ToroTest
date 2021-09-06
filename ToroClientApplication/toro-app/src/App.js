@@ -3,7 +3,6 @@ import {
 	BrowserRouter as Router,
 	Route,
 	Switch,
-	Link,
 	Redirect,
 } from "react-router-dom";
 import Login from "./components/Pages/SignIn/Login";
@@ -16,21 +15,7 @@ function App() {
 
 	return (
 		<div className="wrapper">
-			<h1>Toro Ivestimentos</h1>
 			<Router basename="/">
-				<nav>
-					<ul>
-						<li>
-							<Link to="/SignIn">Sign In</Link>
-						</li>
-						<li>
-							<Link to="/SignUp">Sign Up</Link>
-						</li>
-						<li>
-							<Link to="/userposition">User Position</Link>
-						</li>
-					</ul>
-				</nav>
 				<Switch>
 					<Route exact path="/">
 						{token ? (
@@ -39,7 +24,6 @@ function App() {
 							<Login setToken={setToken} />
 						)}
 					</Route>
-
 					<Route path="/SignIn">
 						<Login setToken={setToken} />
 					</Route>

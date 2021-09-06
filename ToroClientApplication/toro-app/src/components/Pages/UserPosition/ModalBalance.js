@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
 		boxShadow: theme.shadows[5],
 		padding: theme.spacing(2, 4, 3),
 	},
+	button: {
+		backgroundColor: "#6131b4",
+		color: "#fff",
+	},
 	inputPapel: {
 		minWidth: "150px",
 		paddingLeft: "2%",
@@ -94,7 +98,7 @@ export default function ModalBalance({ openModal, closeModal }) {
 			<Fade in={openModal}>
 				<div className={classes.paper}>
 					<Typography gutterBottom variant="h4">
-						Adicionar Saldo
+						Add Balance
 					</Typography>
 					<FormControl className={classes.formControl}>
 						<TextField
@@ -111,9 +115,9 @@ export default function ModalBalance({ openModal, closeModal }) {
 						<Button
 							id="btn-buy-share"
 							variant="contained"
-							color="primary"
+							className={classes.button}
 							onClick={handleAddBalance}>
-							Adicionar
+							Add
 						</Button>
 					</FormControl>
 					{validationMessage && (

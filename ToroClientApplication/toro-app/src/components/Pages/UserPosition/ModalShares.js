@@ -15,6 +15,10 @@ import useToken from "../../../Utils/useToken";
 import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
+	button: {
+		backgroundColor: "#6131b4",
+		color: "#fff",
+	},
 	formControl: {
 		display: "flex",
 		flexDirection: "row",
@@ -62,7 +66,7 @@ export default function ModalShares({ openModal, closeModal }) {
 				var shares = await getShares(token);
 				setShares(shares);
 			} catch (error) {
-				console.log(error.message);
+				throw error.message;
 			}
 		}
 		getAllShares();
@@ -132,11 +136,11 @@ export default function ModalShares({ openModal, closeModal }) {
 			<Fade in={openModal}>
 				<div className={classes.paper}>
 					<Typography gutterBottom variant="h4">
-						Comprar Ações
+						Buy Shares
 					</Typography>
 					<FormControl className={classes.formControl}>
 						<InputLabel id="select-papel-label" className={classes.inputPapel}>
-							Papel
+							Paper
 						</InputLabel>
 						<Select
 							className={classes.inputPapel}
@@ -153,7 +157,7 @@ export default function ModalShares({ openModal, closeModal }) {
 						</Select>
 						<TextField
 							id="qtd-share"
-							label="Quantidade"
+							label="Amount"
 							type="number"
 							InputLabelProps={{
 								shrink: true,
@@ -164,13 +168,13 @@ export default function ModalShares({ openModal, closeModal }) {
 						<Button
 							id="btn-buy-share"
 							variant="contained"
-							color="primary"
+							className={classes.button}
 							onClick={handleBuyShare}>
-							Comprar
+							Buy
 						</Button>
 					</FormControl>
 					<Typography variant="subtitle1" className={classes.totalAmount}>
-						Valor Total: R$
+						Total Amount: R$
 						{shares && calculateTotalMount()}
 					</Typography>
 					{validationMessage && (
