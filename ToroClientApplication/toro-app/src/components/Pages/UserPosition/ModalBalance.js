@@ -6,6 +6,7 @@ import FormControl from "@material-ui/core/FormControl";
 import { addBalance } from "../../../Services/UserPositionServices";
 import useToken from "../../../Utils/useToken";
 import { validateCurrency } from "../../../Utils";
+import Divider from "@material-ui/core/Divider";
 
 import { useHistory } from "react-router";
 
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1),
 		minWidth: 350,
 		justifyContent: "space-between",
+		paddingTop: "30px",
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2),
@@ -108,8 +110,9 @@ export default function ModalBalance({ openModal, closeModal }) {
 			<Fade in={openModal}>
 				<div className={classes.paper}>
 					<Typography gutterBottom variant="h4">
-						Add to Balance
+						Balance
 					</Typography>
+					<Divider />
 					<FormControl className={classes.formControl}>
 						<TextField
 							id="qtd-share"

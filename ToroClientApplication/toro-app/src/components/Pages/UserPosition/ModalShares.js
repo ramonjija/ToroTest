@@ -13,6 +13,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import { getShares, buyShare } from "../../../Services/UserPositionServices";
 import useToken from "../../../Utils/useToken";
 import { useHistory } from "react-router";
+import { formatCents } from "../../../Utils";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1),
 		minWidth: 500,
 		justifyContent: "space-around",
+		paddingTop: "30px",
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2),
@@ -121,7 +124,7 @@ export default function ModalShares({ openModal, closeModal }) {
 		if (shares !== 0) {
 			return shares.map((share, i) => {
 				if (share.symbol === paper) {
-					return share.currentPrice * amount;
+					return formatCents(share.currentPrice * amount);
 				}
 				return null;
 			});
@@ -139,8 +142,9 @@ export default function ModalShares({ openModal, closeModal }) {
 			<Fade in={openModal}>
 				<div className={classes.paper}>
 					<Typography gutterBottom variant="h4">
-						Buy Shares
+						Shares
 					</Typography>
+					<Divider />
 					<FormControl className={classes.formControl}>
 						<InputLabel id="select-papel-label" className={classes.inputPapel}>
 							Paper
