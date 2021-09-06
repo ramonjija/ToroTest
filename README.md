@@ -5,6 +5,11 @@ The application provides the creation of the user (Sign Up), as well as login (S
 From there the authenticated user can buy shares that are pre-loaded at the Database if the user has the necessary amout of Balance.
 The Application also provides a way to Add Balance to the user, make it possible to buy shares.
 
+## Demo
+
+![Demo Toro Investing](https://i.imgur.com/0q6yVUH.gif)
+
+
 ## Instalation
 
 Use [docker-compose](https://docs.docker.com/compose/install/) to run all the required containers.
