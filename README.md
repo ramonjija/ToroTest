@@ -67,7 +67,7 @@ You can Add "money" to your balance to buy some Shares.
 
 The API can be access through the address http://localhost:5100, and uses JWT for Authentication and Authorizarion of some resources such as:  
 
-* Sign In to the application;
+* Sign In the application;
 * Get the User Position;
 * Add Balance to the User Position;
 * Buy Shares;
