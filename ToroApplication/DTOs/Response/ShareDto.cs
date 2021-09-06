@@ -9,6 +9,6 @@ namespace ToroApplication.DTOs.Response
     {
         public int ShareId { get; set; }
         public string Symbol { get; set; }
-        public double CurrentPrice { get; set; }
+        public decimal CurrentPrice { get; set; }
     }
 }

@@ -70,7 +70,7 @@ namespace Domain.Service.Services
             }
         }
 
-        public async Task<IServiceResult<UserPosition>> AddBalance(double addedBalance, string userCpf)
+        public async Task<IServiceResult<UserPosition>> AddBalance(decimal addedBalance, string userCpf)
         {
             try
             {

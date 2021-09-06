@@ -165,7 +165,7 @@ namespace ToroApplication
             {
                 Thread.Sleep(30000);
                 count += 1;
-                if (count > 5)
+                if (count > 6)
                     throw ex;
                 EnsureDbMigration(dbContext, logger, count);
             }

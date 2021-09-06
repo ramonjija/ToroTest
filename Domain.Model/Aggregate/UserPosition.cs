@@ -11,26 +11,26 @@ namespace Domain.Model.Aggregate
     {
         public UserPosition()
         {
-            Positions = new List<Position>();
             Validator = new EntityValidator();
+            Positions = new List<Position>();
         }
 
-        public UserPosition(IEnumerable<Position> positions, double checkingAccountAmount, double consolidated, User user)
+        public UserPosition(IEnumerable<Position> positions, decimal checkingAccountAmount, decimal consolidated, User user)
         {
+            Validator = new EntityValidator();
             AddPositionsToUser(positions);
             CheckingAccountAmount = checkingAccountAmount;
             Consolidated = consolidated;
             User = user;
-            Validator = new EntityValidator();
         }
 
-        public UserPosition(IEnumerable<Position> positions, double checkingAccountAmount, User user)
+        public UserPosition(IEnumerable<Position> positions, decimal checkingAccountAmount, User user)
         {
+            Validator = new EntityValidator();
             User = user;
             AddPositionsToUser(positions);
             CheckingAccountAmount = checkingAccountAmount;
             Consolidated = ConsolidatePositions();
-            Validator = new EntityValidator();
         }
         
         [NotMapped]
@@ -38,11 +38,11 @@ namespace Domain.Model.Aggregate
 
         public int UserPositionId { get; private set; }
         public List<Position> Positions { get; private set; }
-        public double CheckingAccountAmount { get; private set; }
-        public double Consolidated { get; private set; }
+        public decimal CheckingAccountAmount { get; private set; }
+        public decimal Consolidated { get; private set; }
         public User User { get; private set; }
 
-        private double ConsolidatePositions()
+        private decimal ConsolidatePositions()
         {
             return CheckingAccountAmount + Positions.Select(c => c.Amout * c.Share.CurrentPrice).Sum();
         }
@@ -97,7 +97,7 @@ namespace Domain.Model.Aggregate
         }
 
 
-        public UserPosition AddBalance(double addedBalance)
+        public UserPosition AddBalance(decimal addedBalance)
         {
             CheckingAccountAmount += addedBalance;
             Consolidated = ConsolidatePositions();

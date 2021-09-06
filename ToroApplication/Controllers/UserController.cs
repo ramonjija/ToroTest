@@ -46,7 +46,6 @@ namespace ToroApplication.Controllers
         {
             try
             {
-                //TODO: Implement FluentValidator for DTO
                 var validationResult = new PostUserValidation().Validate(postUserDto);
                 if (!validationResult.IsValid)
                     return BadRequest(validationResult.Errors.Select(c => c.ErrorMessage));
@@ -77,7 +76,6 @@ namespace ToroApplication.Controllers
         {
             try
             {
-                //TODO: Implement FluentValidator for DTOs
                 var validationResult = new LogUserValidation().Validate(logUserDto);
                 if (!validationResult.IsValid)
                     return BadRequest(validationResult.Errors.Select(c => c.ErrorMessage));

@@ -44,6 +44,17 @@ namespace ToroApplicationTests.UnitTests
         }
 
         [Test]
+        public async Task Should_Format_User_CPF()
+        {
+            //Arrange
+            //Act
+            var user = new User(cpf, userName, passwordHash);
+            
+            //Assert
+            Assert.AreEqual("90651023025", user.CPF);
+        }
+
+        [Test]
         public async Task Should_Validate_Existing_User()
         {
             //Arrange

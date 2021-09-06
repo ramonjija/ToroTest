@@ -8,8 +8,8 @@ namespace ToroApplication.DTOs.Response
     public class UserPositionDto
     {
         public int UserPositionId { get; set; }
-        public double CheckingAccountAmount { get; set; }
+        public decimal CheckingAccountAmount { get; set; }
         public IEnumerable<PositionDto> Positions { get; set;}
-        public double Consolidated { get; set; }
+        public decimal Consolidated { get; set; }
     }
 }

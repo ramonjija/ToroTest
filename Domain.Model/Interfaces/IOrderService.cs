@@ -10,6 +10,6 @@ namespace Domain.Model.Interfaces
     public interface IOrderService
     {
         Task<IServiceResult<UserPosition>> BuyShare(string shareSymbol, int amount, string userCpf);
-        Task<IServiceResult<UserPosition>> AddBalance(double AddedBalance, string userCpf);
+        Task<IServiceResult<UserPosition>> AddBalance(decimal AddedBalance, string userCpf);
     }
 }

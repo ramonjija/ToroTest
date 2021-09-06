@@ -10,7 +10,7 @@ namespace Domain.Model.Entities
         {
         }
 
-        public Share(int shareId, string symbol, double currentPrice)
+        public Share(int shareId, string symbol, decimal currentPrice)
         {
             ShareId = shareId;
             Symbol = symbol;
@@ -19,6 +19,6 @@ namespace Domain.Model.Entities
 
         public int ShareId { get; set; }
         public string Symbol { get; set; }
-        public double CurrentPrice { get; set; }
+        public decimal CurrentPrice { get; set; }
     }
 }
