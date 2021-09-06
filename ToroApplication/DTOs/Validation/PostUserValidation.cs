@@ -11,10 +11,10 @@ namespace ToroApplication.DTOs.Validation
     {
         public PostUserValidation()
         {
-            RuleFor(c => c.Name).NotEmpty();
-            RuleFor(c => c.CPF).NotEmpty();
-            RuleFor(c => c.CPF).Length(11,14);
-            RuleFor(c => c.Password).NotEmpty();
+            RuleFor(c => c.Name).NotEmpty().WithMessage("Name is required");
+            RuleFor(c => c.CPF).NotEmpty().WithMessage("CPF is required"); ;
+            RuleFor(c => c.CPF).Length(11,14).WithMessage("The CPF's format is invalid"); ;
+            RuleFor(c => c.Password).NotEmpty().WithMessage("Password is required");
         }
     }
 }

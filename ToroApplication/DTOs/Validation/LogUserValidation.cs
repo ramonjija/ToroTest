@@ -1,8 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ToroApplication.DTOs.Request;
 
 namespace ToroApplication.DTOs.Validation
@@ -11,9 +7,9 @@ namespace ToroApplication.DTOs.Validation
     {
         public LogUserValidation()
         {
-            RuleFor(c => c.CPF).NotEmpty();
-            RuleFor(c => c.CPF).Length(11,14);
-            RuleFor(c => c.Password).NotEmpty();
+            RuleFor(c => c.CPF).NotEmpty().WithMessage("CPF is required");
+            RuleFor(c => c.CPF).Length(11,14).WithMessage("The CPF's format is invalid");
+            RuleFor(c => c.Password).NotEmpty().WithMessage("Password is required");
         }
     }
 }

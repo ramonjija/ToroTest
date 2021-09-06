@@ -1,8 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ToroApplication.DTOs.Request;
 
 namespace ToroApplication.DTOs.Validation
@@ -11,8 +7,8 @@ namespace ToroApplication.DTOs.Validation
     {
         public BuyShareValidation()
         {
-            RuleFor(c => c.ShareSymbol).NotEmpty();
-            RuleFor(c => c.Amount).NotEmpty();
+            RuleFor(c => c.ShareSymbol).NotEmpty().WithMessage("Share is required");
+            RuleFor(c => c.Amount).NotEmpty().WithMessage("Amount is required");
         }
     }
 }
