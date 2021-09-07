@@ -17,42 +17,48 @@ Use [docker-compose](https://docs.docker.com/compose/install/) to run all the re
 ```
 docker-compose up -d
 ```
+<details>
+  <summary>If you are using Docker in MacOS <b>click here</b>!</summary>
+  </br>
+    
+  Add the following paths to the File Sharing settings.json at docker:
+  
+  1. ~/Library/Group\ Containers/group.com.docker/settings.json
 
-*Obs: If you are using Docker in MacOS add the following paths to the File Sharing settings.json at docker:
+     ```
+     ~/Library/Group\ Containers/group.com.docker/settings.json
+     ```
+  
+  2. Add at field filesharingDirectories:
 
-  ~/Library/Group\ Containers/group.com.docker/settings.json
+      ```
+      “filesharingDirectories” : [
+        “\/Users”,
+        “\/Volumes”,
+        “\/private”,
+        “\/tmp”
+      ],
+      ```
+      The values:
+      ```
+      “\/Microsoft\/UserSecrets”
+      “\/ASP.NET\/Https”
+      ```
 
-  ```
-  ~/Library/Group\ Containers/group.com.docker/settings.json
-  ```
-  Add at field filesharingDirectories:
+      Resulting in:
 
-  ```
-  “filesharingDirectories” : [
-    “\/Users”,
-    “\/Volumes”,
-    “\/private”,
-    “\/tmp”
-  ],
-  ```
-  The values:
-  ```
-  “\/Microsoft\/UserSecrets”
-  “\/ASP.NET\/Https”
-  ```
-
-  Resulting in:
-
-  ```
-  “filesharingDirectories” : [
-    “\/Users”,
-    “\/Volumes”,
-    “\/private”,
-    “\/tmp”,
-    “\/Microsoft\/UserSecrets”,
-    “\/ASP.NET\/Https”
-  ],
-  ```
+      ```
+      “filesharingDirectories” : [
+        “\/Users”,
+        “\/Volumes”,
+        “\/private”,
+        “\/tmp”,
+        “\/Microsoft\/UserSecrets”,
+        “\/ASP.NET\/Https”
+      ],
+      ```
+ 
+</details>
 
 The command should be runned at root folder of the application, where <b>docker-compose.yml</b> is located.
 
@@ -65,7 +71,9 @@ From there, create your User with a valid CPF and you'll be redirected to the ma
 
 You can Add "money" to your balance to buy some Shares.
 
-The API can be access through the address http://localhost:5100, and uses JWT for Authentication and Authorizarion of some resources such as:  
+### API
+
+The <b>Swagger</b> of the API can be access through the address http://localhost:5100, and uses JWT for Authentication and Authorizarion of some resources such as:  
 
 * Sign In the application;
 * Get the User Position;
