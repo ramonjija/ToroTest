@@ -7,7 +7,7 @@ networks:
 services:
   sql-server-db:
     container_name: sql-server-db
-    image: microsoft/mssql-server-linux:2017-latest
+    image: mcr.microsoft.com/mssql/server:2019-latest
     ports:
       - "1445:1433"
     networks:
