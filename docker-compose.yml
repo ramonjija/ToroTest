@@ -1,0 +1,44 @@
+version: "3.4"
+
+networks:
+  toroapplication-network:
+    driver: bridge
+
+services:
+  sql-server-db:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1445:1433"
+    networks:
+      - toroapplication-network
+    environment:
+      SA_PASSWORD: "Pass@word"
+      ACCEPT_EULA: "Y"
+      MSSQL_AGENT_ENABLED: "true"
+
+  toroapplication:
+    image: ${DOCKER_REGISTRY-}toroapplication
+    build:
+      context: .
+      dockerfile: ToroApplication/Dockerfile
+    environment:
+      - ConnectionString=Server=sql-server-db;Database=ToroInvestment;User Id=sa;Password=Pass@word;TrustServerCertificate=true
+    ports:
+      - "5100:80"
+    depends_on:
+      - sql-server-db
+    networks:
+      - toroapplication-network
+
+  toroclientapplication:
+    image: ${DOCKER_REGISTRY-}toro-client-app
+    build:
+      context: ./ToroClientApplication/toro-app
+      dockerfile: Dockerfile
+    volumes:
+      - ./ToroClientApplication/toro-app/src:/clientApp/src
+    ports:
+      - "3000:3000"
+    networks:
+      - toroapplication-network

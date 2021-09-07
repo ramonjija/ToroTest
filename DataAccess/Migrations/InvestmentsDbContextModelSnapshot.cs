@@ -26,11 +26,11 @@ namespace DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("CheckingAccountAmount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("CheckingAccountAmount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("Consolidated")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Consolidated")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -74,8 +74,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("CurrentPrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("CurrentPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Symbol")
                         .HasColumnType("nvarchar(max)");

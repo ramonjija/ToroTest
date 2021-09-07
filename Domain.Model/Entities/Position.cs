@@ -16,6 +16,11 @@ namespace Domain.Model.Entities
             Share = share;
             Amout = amout;
         }
+        public Position(Share share, int amout)
+        {
+            Share = share;
+            Amout = amout;
+        }
 
         public int PositionId { get; set; }
         public Share Share { get; set; }

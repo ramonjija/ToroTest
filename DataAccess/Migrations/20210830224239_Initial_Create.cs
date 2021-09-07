@@ -13,7 +13,7 @@ namespace DataAccess.Migrations
                     ShareId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Symbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CurrentPrice = table.Column<double>(type: "float", nullable: false)
+                    CurrentPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m)
                 },
                 constraints: table =>
                 {
@@ -41,8 +41,8 @@ namespace DataAccess.Migrations
                 {
                     UserPositionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CheckingAccountAmount = table.Column<double>(type: "float", nullable: false),
-                    Consolidated = table.Column<double>(type: "float", nullable: false),
+                    CheckingAccountAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
+                    Consolidated = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
                     UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

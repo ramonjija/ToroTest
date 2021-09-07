@@ -9,7 +9,7 @@ namespace ToroApplication.DTOs.Response
     {
         public string Symbol { get; set; }
         public int Amount { get; set; }
-        public double CurrentPrice { get; set; }
+        public decimal CurrentPrice { get; set; }
 
     }
 }

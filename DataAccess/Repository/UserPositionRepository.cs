@@ -17,7 +17,8 @@ namespace DataAccess.Repository
                 .UserPositions
                 .Include(c => c.Positions)
                 .ThenInclude(c => c.Share)
-                .FirstOrDefaultAsync(c => c.User.CPF.Equals(cpf)).ConfigureAwait(false);
+                .FirstOrDefaultAsync(c => c.User.CPF.Equals(cpf))
+                .ConfigureAwait(false);
         }
     }
 }

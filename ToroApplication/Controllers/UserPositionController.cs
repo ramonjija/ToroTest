@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ToroApplication.DTOs.Response;
+using ToroApplication.Mappers;
 
 namespace ToroApplication.Controllers
 {
@@ -24,9 +25,13 @@ namespace ToroApplication.Controllers
             _userPositionService = userPositionService;
         }
 
+        /// <summary>
+        /// This Route is responsible to get the User Position of the user, it consists on the Current Balance, Consolidated Balance and the Shares owned by the authenticated user
+        /// </summary>
         [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPositionDto))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetUserPosition()
@@ -37,17 +42,7 @@ namespace ToroApplication.Controllers
                 if (serviceResult.Result == null)
                     return NotFound();
 
-                var userPositionDto = new UserPositionDto()
-                {
-                    CheckingAccountAmount = serviceResult.Result.CheckingAccountAmount,
-                    Consolidated = serviceResult.Result.Consolidated,
-                    Positions = serviceResult.Result.Positions?.Select(c => new PositionDto()
-                    {
-                        Amount = c.Amout,
-                        CurrentPrice = c.Share.CurrentPrice,
-                        Symbol = c.Share.Symbol
-                    }).ToList()
-                };
+                var userPositionDto = new UserPositionAdapter().Adapt(serviceResult.Result);
 
                 return Ok(userPositionDto);
             }

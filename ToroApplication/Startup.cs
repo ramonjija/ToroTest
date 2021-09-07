@@ -1,8 +1,3 @@
-//using AutoMapper;
-//using DataAccess.Repository;
-//using Domain.Interfaces;
-//using Domain.Service;
-//using Domain.Service.Services;
 using DataAccess;
 using DataAccess.Repository;
 using Domain.Model.Interfaces;
@@ -47,8 +42,6 @@ namespace ToroApplication
                 c.ClearProviders();
                 c.AddConsole();
             });
-
-            //services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(c =>
             {
@@ -120,15 +113,16 @@ namespace ToroApplication
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IUserPositionService, UserPositionService>();
+            services.AddScoped<IShareService, ShareService>();
+            services.AddScoped<IOrderService, OrderService>();
             //
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger, InvestmentsDbContext investmentsDbContext)
         {
-            //Add EnsureDbMigration
-            //EnsureDbMigration(borrowedGamesContext, logger);
+            EnsureDbMigration(investmentsDbContext, logger);
 
             if (env.IsDevelopment())
             {
@@ -158,22 +152,23 @@ namespace ToroApplication
             });
         }
 
-        /*private void EnsureDbMigration(BorrowedGamesContext dbContext, ILogger<Startup> logger, int tentatives = 1)
+        private void EnsureDbMigration(InvestmentsDbContext dbContext, ILogger<Startup> logger, int tentatives = 1)
         {
             logger.LogInformation($"Attempting to Migrate Database. Tentative: {tentatives}");
             int count = tentatives;
             try
             {
                 dbContext.Database.Migrate();
+                logger.LogInformation($"Migrate Database - Success.");
             }
             catch (Exception ex)
             {
                 Thread.Sleep(30000);
                 count += 1;
-                if (count > 5)
+                if (count > 6)
                     throw ex;
                 EnsureDbMigration(dbContext, logger, count);
             }
-        }*/
+        }
     }
 }

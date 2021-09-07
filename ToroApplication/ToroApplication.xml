@@ -4,9 +4,31 @@
         <name>ToroApplication</name>
     </assembly>
     <members>
+        <member name="M:ToroApplication.Controllers.OrderController.BuyShare(ToroApplication.DTOs.Request.BuyShareDto)">
+            <summary>
+            This Route is responsible to buy Shares for the authenticated user
+            </summary>
+            <param name="buyShareDto">
+            ShareSymbol = The symbol used to identify the share;
+            Amount = The quantity of the share that will be bought;
+            </param>
+        </member>
+        <member name="M:ToroApplication.Controllers.OrderController.AddBalance(ToroApplication.DTOs.Request.AddBalanceDto)">
+            <summary>
+            This Route is responsible to add Balance (money) to the authenticated user
+            </summary>
+            <param name="addedBalance">
+            Balance = The amount of money that the user wants to add to the balance
+            </param>
+        </member>
+        <member name="M:ToroApplication.Controllers.ShareController.GetShares">
+            <summary>
+            This route is responsible to return all the shares of the system
+            </summary>
+        </member>
         <member name="M:ToroApplication.Controllers.UserController.Post(ToroApplication.DTOs.Request.PostUserDto)">
             <summary>
-            This Route is Used to Create Users
+            This Route is used to Create users
             </summary>
             <param name="postUserDto">
             Name = Name of the User
@@ -16,7 +38,12 @@
         </member>
         <member name="M:ToroApplication.Controllers.UserController.Login(ToroApplication.DTOs.Request.LogUserDto)">
             <summary>
-            This Route is Responsible for the Login of the User
+            This Route is responsible for the Login of the user
+            </summary>
+        </member>
+        <member name="M:ToroApplication.Controllers.UserPositionController.GetUserPosition">
+            <summary>
+            This Route is responsible to get the User Position of the user, it consists on the Current Balance, Consolidated Balance and the Shares owned by the authenticated user
             </summary>
         </member>
     </members>

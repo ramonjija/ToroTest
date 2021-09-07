@@ -13,7 +13,9 @@ namespace DataAccess.Configuration
         {
             builder.HasKey(c => c.ShareId);
             builder.Property(c => c.Symbol);
-            builder.Property(c => c.CurrentPrice);
+            builder.Property(c => c.CurrentPrice)
+                .HasColumnType("decimal(18,2)")
+                .HasPrecision(18, 2);
         }
     }
 }

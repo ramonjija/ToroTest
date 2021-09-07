@@ -20,7 +20,6 @@ namespace Security
                     new Claim("UserId", user.UserId.ToString()),
                     new Claim("Cpf", user.CPF.ToString()),
                     new Claim(ClaimTypes.Name, user.UserName.ToString()),
-                    //new Claim(ClaimTypes.Role, user.UserType.Type)
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

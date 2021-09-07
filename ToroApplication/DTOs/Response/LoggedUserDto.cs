@@ -7,17 +7,13 @@ namespace ToroApplication.DTOs.Response
 {
     public class LoggedUserDto
     {
-        public LoggedUserDto(string userName, string cpf, string token)
+        public LoggedUserDto()
         {
-            UserName = userName;
-            CPF = cpf;
-            Token = token;
-            TokenType = Security.Settings.TokenType;
         }
 
         public string UserName { get; set; }
         public string CPF { get; set; }
-        public string TokenType { get; set; }
+        public string TokenType => Security.Settings.TokenType;
         public string Token { get; set; }
     }
 }

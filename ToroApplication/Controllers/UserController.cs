@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Security;
 using ToroApplication.DTOs.Request;
 using ToroApplication.DTOs.Response;
+using ToroApplication.DTOs.Validation;
+using ToroApplication.Mappers;
 
 namespace ToroApplication.Controllers
 {
@@ -28,7 +30,7 @@ namespace ToroApplication.Controllers
         }
 
         /// <summary>
-        /// This Route is Used to Create Users
+        /// This Route is used to Create users
         /// </summary>
         /// <param name="postUserDto">
         /// Name = Name of the User
@@ -44,18 +46,17 @@ namespace ToroApplication.Controllers
         {
             try
             {
-                var serviceResult = await _userservice.CreateUser(postUserDto.Name, postUserDto.CPF, postUserDto.Password);
+                var validationResult = new PostUserValidation().Validate(postUserDto);
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors.Select(c => c.ErrorMessage));
+
+                var serviceResult = await _userservice.CreateUser(postUserDto.CPF, postUserDto.Name, postUserDto.Password);
                 if (!serviceResult.Success)
-                    return BadRequest(serviceResult.ValidationMessages);
+                    return BadRequest(serviceResult.Validator.ValidationMessages);
 
-                var result = new UserDto()
-                {
-                    UserId = serviceResult.Result.UserId,
-                    CPF = serviceResult.Result.CPF,
-                    UserName = serviceResult.Result.UserName
-                };
+                var createdUser = new UserAdapter().Adapt(serviceResult.Result);
 
-                return Created($"User: {result.UserId}", result);
+                return Created($"User: {createdUser.UserId}", createdUser);
             }
             catch (Exception ex)
             {
@@ -64,7 +65,7 @@ namespace ToroApplication.Controllers
         }
 
         /// <summary>
-        /// This Route is Responsible for the Login of the User
+        /// This Route is responsible for the Login of the user
         /// </summary>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoggedUserDto))]
@@ -75,13 +76,19 @@ namespace ToroApplication.Controllers
         {
             try
             {
+                var validationResult = new LogUserValidation().Validate(logUserDto);
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors.Select(c => c.ErrorMessage));
+
                 var serviceResult = await _userservice.GetUser(logUserDto.CPF, logUserDto.Password);
                 if (!serviceResult.Success)
-                    return BadRequest(serviceResult.ValidationMessages);
+                    return BadRequest(serviceResult.Validator.ValidationMessages);
 
                 var token = TokenService.GenerateToken(serviceResult.Result);
 
-                return Ok(new LoggedUserDto(serviceResult.Result.UserName, serviceResult.Result.CPF, token));
+                var loggedUser = new UserAdapter().Adapt(serviceResult.Result, token);
+
+                return Ok(loggedUser);
             }
             catch (Exception ex)
             {

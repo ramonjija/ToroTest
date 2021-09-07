@@ -12,6 +12,7 @@ namespace DataAccess.Configuration
             builder.Property(c => c.UserName);
             builder.Property(c => c.CPF);
             builder.Property(c => c.PasswordHash);
+            builder.Ignore(c => c.Validator);
         }
     }
 }
