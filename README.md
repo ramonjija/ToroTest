@@ -7,7 +7,7 @@ The Application also provides a way to Add Balance to the user, make it possible
 
 ## Demo
 
-![Demo Toro Investing](https://i.imgur.com/0q6yVUH.gif)
+![Demo Toro Investing](https://i.imgur.com/AypqgZd.gif)
 
 
 ## Instalation
