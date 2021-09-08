@@ -17,6 +17,9 @@ Use [docker-compose](https://docs.docker.com/compose/install/) to run all the re
 ```
 docker-compose up -d
 ```
+
+Wait a few moments after all the images and the container is up, to finish the migration process.
+
 <details>
   <summary>If you are using Docker in MacOS <b>click here</b>!</summary>
   </br>
